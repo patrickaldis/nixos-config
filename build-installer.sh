@@ -6,7 +6,7 @@ cd "$SCRIPT_DIR"
 
 # Build the ISO
 echo "Building ISO..."
-nix build .#nixosConfigurations.installer.config.system.build.isoImage
+nix build .#nixosConfigurations.installers.kitty.config.system.build.isoImage
 
 # Decrypt keys to temp files
 TMPDIR=$(mktemp -d)
