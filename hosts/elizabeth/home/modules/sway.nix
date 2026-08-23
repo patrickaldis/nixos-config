@@ -19,13 +19,22 @@
       xdgAutostart = true;
       variables = [ "--all" ];
     };
-    package = pkgs.swayfx;
     extraConfig =
       let
         mod = config.wayland.windowManager.sway.config.modifier;
       in
       /* swayconfig */ '' 
-      font pango:JetBrainsMono Nerd Font 10.000000 floating_modifier Mod1 default_border pixel 2 default_floating_border normal 2 hide_edge_borders none focus_wrapping no focus_follows_mouse yes focus_on_window_activation smart mouse_warping container workspace_layout default workspace_auto_back_and_forth no
+      font pango:JetBrainsMono Nerd Font 10.000000
+      floating_modifier Mod1
+      default_border pixel 2
+      default_floating_border normal 2
+      hide_edge_borders none
+      focus_wrapping no
+      focus_follows_mouse yes
+      focus_on_window_activation smart
+      mouse_warping container
+      workspace_layout default
+      workspace_auto_back_and_forth no
       client.focused #606697 #8f97e8 #ffffff #bd8fe8 #8f97e8
       client.focused_inactive #606697 #606697 #ffffff #606697 #484d6f
       client.unfocused #606697 #484d6f #ffffff #606697 #484d6f
@@ -90,7 +99,6 @@
       bindsym Mod1+l focus right
       bindsym Mod1+minus scratchpad show
       bindsym Mod1+n split none
-      bindsym Mod1+p exec ${pkgs.walker}/bin/walker
       bindsym Mod1+q layout stacking
       bindsym Mod1+r mode resize2
       bindsym Mod1+s focus child
@@ -191,34 +199,6 @@
       for_window [app_id="ranger"] resize set width 40ppt
       exec swaync
 
-      exec ${pkgs.xfce.xfce4-power-manager}/bin/xfce4-power-manager --daemon
-
-      exec ${pkgs.wluma}/bin/wluma
-
-      exec ${pkgs.wlsunset}/bin/wlsunset -t 4000 -T 6500
-
-      exec ${pkgs.walker}/bin/walker --gapplication-service
-
-      exec ${pkgs.lxqt.lxqt-policykit}/bin/lxqt-policykit-agent
-
-      mode 'disable' {
-        bindsym Mod1+Shift+q mode "default"
-      }
-
-      mode 'resize2' {
-        bindsym space mode "default"
-        bindsym escape mode "default"
-        bindsym return mode "default"
-        bindsym Mod1+r mode "default"
-
-        bindsym h resize shrink right 10 ppt
-        bindsym l resize grow right 10 ppt
-        bindsym j resize grow down 10 ppt
-        bindsym k resize shrink down 10 ppt
-      }
-
-      animation_duration_ms 200
-
       bindgesture swipe:3:right workspace prev
       bindgesture swipe:3:left workspace next
 
@@ -229,34 +209,21 @@
       bindgesture pinch:outward floating disable
       bindsym --border button2 kill
       workspace 1
-        mode 'disable' {
-          bindsym ${mod}+Shift+q mode "default"
-        }
+      mode 'disable' {
+        bindsym ${mod}+Shift+q mode "default"
+      }
 
-        mode 'resize2' {
-          bindsym space mode "default"
-          bindsym escape mode "default"
-          bindsym return mode "default"
-          bindsym ${mod}+r mode "default"
+      mode 'resize2' {
+        bindsym space mode "default"
+        bindsym escape mode "default"
+        bindsym return mode "default"
+        bindsym ${mod}+r mode "default"
 
-          bindsym h resize shrink right 10 ppt
-          bindsym l resize grow right 10 ppt
-          bindsym j resize grow down 10 ppt
-          bindsym k resize shrink down 10 ppt
-        }
-
-        animation_duration_ms 200
-
-        bindgesture swipe:3:right workspace prev
-        bindgesture swipe:3:left workspace next
-
-        bindgesture swipe:4:up move scratchpad
-        bindgesture swipe:4:down [floating] scratchpad show
-
-        bindgesture pinch:inward floating enable
-        bindgesture pinch:outward floating disable
-        bindsym --border button2 kill
-        workspace 1
+        bindsym h resize shrink right 10 ppt
+        bindsym l resize grow right 10 ppt
+        bindsym j resize grow down 10 ppt
+        bindsym k resize shrink down 10 ppt
+      }
       '';
   };
 }
