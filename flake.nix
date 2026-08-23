@@ -8,6 +8,10 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     import-tree.url = "github:denful/import-tree";
+    home-manager = {
+      url = "github:nix-community/home-manager";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
@@ -36,12 +40,13 @@
                 "agenix"
                 "nvim"
                 "import-tree"
+                "home-manager"
               ]
           );
         }
       );
 
-      systems = [ "kitty" ];
+      systems = [ "kitty" "elizabeth"];
 
       mkSystem = name: (builder {inherit name; storeContents = [];});
       mkInstaller = name: (builder {name = "lydia"; storeContents = [ (mkSystem name).config.system.build.toplevel ];});
