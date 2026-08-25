@@ -31,7 +31,7 @@
               ]
           );
         };
-        users.users.root.openssh.authorizedKeys.keys = (import "${secrets}/secrets.nix").all.publicKeys;
+        users.users.root.openssh.authorizedKeys.keys = (import "${secrets}/secrets.nix").allUsers.publicKeys;
         isoImage.storeContents = storeContents;
         system.extraDependencies = storeContents;
         environment.systemPackages = [
