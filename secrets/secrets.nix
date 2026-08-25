@@ -5,8 +5,9 @@ let
   vm = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMTu27K9MREISA+/1CjATVrQTp3cFomIoV0G72nT2/3e root@nixos";
   lydia = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDxTHQOpCFZWlEk7P7KVBFGxMiCUBT+6tDu/cjCCZ+jw lydia";
   elizabeth = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIN4Syg9D4bIk0BOqrb/23iQLXObFWNkGkH41vPG7WHsA elizabeth";
+  mary = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMUgf+mHH85a2lwOpFmmFnK6jiy+Hzjl/LaGMxKc6zpG patrick@mary";
 
-  all = [tv-box obsidian-laptop vm lydia elizabeth];
+  all = [tv-box obsidian-laptop vm lydia elizabeth mary];
 in
 {
   all.publicKeys = all;
