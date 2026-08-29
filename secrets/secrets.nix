@@ -7,7 +7,8 @@ let
 
   # users
   patrick_mary = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMUgf+mHH85a2lwOpFmmFnK6jiy+Hzjl/LaGMxKc6zpG patrick@mary";
-  all_users = [patrick_mary];
+  root_lydia = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIL9j3Z2towbEk1IXl8YeLuDzEodlD4vZKjJa9DE8ldry root@lydia";
+  all_users = [patrick_mary root_lydia];
 
   all = all_users ++ all_systems;
 in
