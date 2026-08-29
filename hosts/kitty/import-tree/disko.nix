@@ -5,7 +5,7 @@
     disk = {
       main = {
         imageSize = "10G";
-        device = "/dev/disk/by-id/ata-SK_hynix_SC311_SATA_256GB_MS82N176810802R0S";
+        device = "/dev/disk/by-id/nvme-AirDisk_512GB_SSD_QFQ684W005931P110N";
         type = "disk";
         content = {
           type = "gpt";
