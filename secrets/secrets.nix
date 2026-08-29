@@ -2,7 +2,8 @@ let
   # systems
   lydia = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDxTHQOpCFZWlEk7P7KVBFGxMiCUBT+6tDu/cjCCZ+jw lydia";
   elizabeth = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIN4Syg9D4bIk0BOqrb/23iQLXObFWNkGkH41vPG7WHsA elizabeth";
-  all_systems = [lydia elizabeth];
+  kitty = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFhfv7vvXZZ1L92ZnbXkpgbLXgWZeCZodX9FgwB+fFIa kitty";
+  all_systems = [lydia elizabeth kitty];
 
   # users
   patrick_mary = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMUgf+mHH85a2lwOpFmmFnK6jiy+Hzjl/LaGMxKc6zpG patrick@mary";
@@ -17,6 +18,7 @@ in
   "keys/prv/root_lydia.age".publicKeys = all_users;
   "keys/prv/elizabeth.age".publicKeys = all_users;
   "keys/prv/patrick_elizabeth.age".publicKeys = all_users;
+  "keys/prv/kitty.age".publicKeys = all_users;
 
   "root-pass.age".publicKeys = all;
   "runner-token.age".publicKeys = all;
