@@ -14,7 +14,6 @@
   networking.hostName = "magic-box";
   networking.wireless = {
     enable = true;
-    interfaces = [ "wlp58s0" ];
     secretsFile = config.age.secrets.wifi.path;
     networks = builtins.listToAttrs
     (map (name: { inherit name; value.pskRaw = "ext:PSK_${name}"; })
