@@ -56,15 +56,11 @@
         networking.hostName = "lydia";
 
         system.activationScripts.installSshKey = {
-          text = ''
-            if [ -f /iso/lydia ] && [ ! -f /etc/ssh/ssh_host_ed25519_key ]; then
-              install -D -m 600 /iso/lydia /etc/ssh/ssh_host_ed25519_key
-              install -D -m 644 /iso/lydia.pub /etc/ssh/ssh_host_ed25519_key.pub
-            fi
-            if [ -f /iso/root_lydia ] && [ ! -f /root/.ssh/id_ed25519 ]; then
-              install -D -m 600 /iso/root_lydia /root/.ssh/id_ed25519
-              install -D -m 644 /iso/root_lydia.pub /root/.ssh/id_ed25519.pub
-            fi
+          text = /* bash */ ''
+            install -D -m 600 /iso/lydia /etc/ssh/ssh_host_ed25519_key
+            install -D -m 644 /iso/lydia.pub /etc/ssh/ssh_host_ed25519_key.pub
+            install -D -m 600 /iso/root_lydia /root/.ssh/id_ed25519
+            install -D -m 644 /iso/root_lydia.pub /root/.ssh/id_ed25519.pub
           '';
           deps = [ ];
         };
