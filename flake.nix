@@ -12,6 +12,10 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    plasma-manager = {
+      url = "github:nix-community/plasma-manager";
+      inputs.nixpkgs.follows = "home-manager";
+    };
   };
 
   outputs =
@@ -43,6 +47,7 @@
                   "nvim"
                   "import-tree"
                   "home-manager"
+                  "plasma-manager"
                 ]
             );
           }
