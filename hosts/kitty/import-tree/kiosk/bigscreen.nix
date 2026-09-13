@@ -37,6 +37,9 @@ in
 {
   imports = [ home-manager.nixosModules.default ];
 
+  home-manager.useGlobalPkgs = true;
+  home-manager.useUserPackages = true;
+
   home-manager.users.tv-session = {
     imports = [ plasma-manager.homeModules.plasma-manager ];
     home.stateVersion = "26.11";
