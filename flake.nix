@@ -27,9 +27,11 @@
       system = "x86_64-linux";
       builder =
         { name, storeContents }:
-        inputs.nixpkgs.lib.nixosSystem (
-          import ./hosts/${name}
+        let hostConfig = import ./hosts/${name};
+        in inputs.nixpkgs.lib.nixosSystem (
+          hostConfig
           // {
+            modules = hostConfig.modules ++ [ (import ./modules) ];
             specialArgs = {
               inherit storeContents;
               system = "x86_64-linux";
