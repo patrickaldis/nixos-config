@@ -99,6 +99,7 @@
             text = ''
 
               TARGETDIR=$(mktemp -d)
+              export NIX_DISK_IMAGE="$TARGETDIR/${name}.qcow2"
               trap 'rm -rf "$TARGETDIR"' EXIT
 
               echo "Decrypting private keys..."
