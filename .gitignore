@@ -1,4 +1,3 @@
-runner-server.qcow2
-magic-box.qcow2
+*.qcow2
 installer.iso
 result

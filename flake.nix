@@ -88,10 +88,37 @@
         ];
       };
       packages.${system} = {
+        run-vm = genSystemsWith (
+          name:
+          pkgs.writeShellApplication {
+            name = "${name} vm";
+            runtimeInputs =
+              (with pkgs; [
+                age
+              ]);
+            text = ''
+
+              TARGETDIR=$(mktemp -d)
+              trap 'rm -rf "$TARGETDIR"' EXIT
+
+              echo "Decrypting private keys..."
+              for file in ${./secrets/keys/prv}/${name}/*; do
+                age -d -i ~/.ssh/id_ed25519 "$file" > "$TARGETDIR/$(basename "''${file%.age}")"
+              done
+
+              echo "Copying public keys..."
+              for file in ${./secrets/keys/pub}/${name}/*; do
+                cp "$file" "$TARGETDIR/$(basename "$file")"
+              done
+
+              ${self.nixosConfigurations.${name}.config.system.build.vm}/bin/run-${name}-vm -virtfs local,path="$TARGETDIR",mount_tag=shared_tag,security_model=mapped-xattr
+            '';
+          }
+        );
         install = genSystemsWith (
           name:
           pkgs.writeShellApplication {
-            name = "Install nixos";
+            name = "install ${name}";
             runtimeInputs =
               (with pkgs; [
                 age
@@ -122,7 +149,7 @@
         mkInstallerFor = genSystemsWith (
           name:
           pkgs.writeShellApplication {
-            name = "Generate an installable ISO";
+            name = "${name} iso";
             runtimeInputs = with pkgs; [
               age
               xorriso
@@ -130,7 +157,7 @@
             text = ''
               # Decrypt keys to temp files
               TMPDIR=$(mktemp -d)
-              trap 'rm -rf $TMPDIR' EXIT
+              trap 'rm -rf "$TMPDIR"' EXIT
 
               echo "Decrypting keys..."
               age -d -i ~/.ssh/id_ed25519 secrets/keys/prv/lydia.age > "$TMPDIR/lydia"
