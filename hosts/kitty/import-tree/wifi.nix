@@ -11,7 +11,7 @@
       addresses = true;
     };
   };
-  networking.hostName = "magic-box";
+  networking.hostName = "kitty";
   networking.wireless = {
     enable = true;
     secretsFile = config.age.secrets.wifi.path;
