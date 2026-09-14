@@ -235,5 +235,4 @@
   };
 
   programs.sway.enable = true;
-  programs.niri.enable = true;
 })
