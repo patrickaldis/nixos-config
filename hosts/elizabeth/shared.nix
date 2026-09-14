@@ -1,6 +1,8 @@
 ({ pkgs, ... }: {
   nixpkgs.config.allowUnfree = true;
 
+  networking.hostName = "elizabeth";
+
   boot.loader = {
     efi.canTouchEfiVariables = true;
     systemd-boot.enable = true;
