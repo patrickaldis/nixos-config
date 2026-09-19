@@ -14,6 +14,7 @@
   networking.hostName = "kitty";
   networking.wireless = {
     enable = true;
+    scanOnLowSignal = false;
     secretsFile = config.age.secrets.wifi.path;
     networks = builtins.listToAttrs
     (map (name: { inherit name; value.pskRaw = "ext:PSK_${name}"; })

@@ -83,6 +83,6 @@ in
 
   # Necessary for bigscreen
   networking.networkmanager.enable = true;
-  networking.networkmanager.unmanaged = [ "wlp58s0" ];
+  networking.networkmanager.unmanaged = [ "type:wifi" ];
   programs.kdeconnect.enable = true;
 }
