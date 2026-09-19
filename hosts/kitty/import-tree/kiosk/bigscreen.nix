@@ -48,12 +48,11 @@ in
       overrideConfig = true;
       powerdevil.AC = {
         powerButtonAction = "shutDown";
-        autoSuspend.action = "nothing";
         dimDisplay = {
           enable = true;
-          idleTimeout = 60 * 10;
+          idleTimeout = 60 * 5;
         };
-        turnOffDisplay.idleTimeout = 60 * 15;
+        turnOffDisplay.idleTimeout = 60 * 10;
       };
       configFile."applications-blacklistrc"."Applications".blacklist =
         builtins.concatStringsSep "," hiddenApplications;
