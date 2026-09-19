@@ -38,10 +38,6 @@
           disko.packages.${system}.disko
           nvim.packages.${system}.default
         ];
-        nix.settings.experimental-features = [
-          "nix-command"
-          "flakes"
-        ];
         services.openssh = {
           enable = true;
           settings.PermitRootLogin = "prohibit-password";

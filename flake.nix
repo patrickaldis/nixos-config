@@ -31,7 +31,7 @@
         in inputs.nixpkgs.lib.nixosSystem (
           hostConfig
           // {
-            modules = hostConfig.modules ++ [ (import ./modules) ];
+            modules = hostConfig.modules ++ [ ({import-tree, ...}: import-tree ./modules) ];
             specialArgs = {
               inherit storeContents;
               system = "x86_64-linux";
