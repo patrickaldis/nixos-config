@@ -22,5 +22,5 @@
     install -d -m 700 -o root -g root /root/.ssh
     install -m 644 -o root -g root ${secrets}/root-user-ssh.pub /root/.ssh/id_ed25519.pub
   '';
-  services.openssh.settings.PermitRootLogin = "yes";
+  services.openssh.settings.PermitRootLogin = "prohibit-password";
 }

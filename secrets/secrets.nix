@@ -13,7 +13,7 @@ let
   all = all_users ++ all_systems;
 in
 {
-  allUsers.publicKeys = all;
+  allUsers.publicKeys = all_users;
 
   "keys/prv/lydia/lydia.age".publicKeys = all_users;
   "keys/prv/lydia/root_lydia.age".publicKeys = all_users;

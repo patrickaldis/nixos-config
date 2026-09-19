@@ -27,15 +27,18 @@
       system = "x86_64-linux";
       builder =
         { name, storeContents }:
-        let hostConfig = import ./hosts/${name};
-        in inputs.nixpkgs.lib.nixosSystem (
+        let
+          hostConfig = import ./hosts/${name};
+        in
+        inputs.nixpkgs.lib.nixosSystem (
           hostConfig
           // {
-            modules = hostConfig.modules ++ [ ({import-tree, ...}: import-tree ./modules) ];
+            modules = hostConfig.modules ++ [ ({ import-tree, ... }: import-tree ./modules) ];
             specialArgs = {
               inherit storeContents;
               system = "x86_64-linux";
               secrets = ./secrets;
+              allUserKeys = (import ./secrets/secrets.nix).allUsers.publicKeys;
             }
             // builtins.listToAttrs (
               map
@@ -94,10 +97,12 @@
           name:
           pkgs.writeShellApplication {
             name = "${name} vm";
-            runtimeInputs =
-              (with pkgs; [
+            runtimeInputs = (
+              with pkgs;
+              [
                 age
-              ]);
+              ]
+            );
             text = ''
 
               TARGETDIR=$(mktemp -d)
@@ -114,7 +119,9 @@
                 cp "$file" "$TARGETDIR/$(basename "$file")"
               done
 
-              ${self.nixosConfigurations.${name}.config.system.build.vm}/bin/run-${name}-vm -virtfs local,path="$TARGETDIR",mount_tag=shared_tag,security_model=mapped-xattr
+              ${
+                self.nixosConfigurations.${name}.config.system.build.vm
+              }/bin/run-${name}-vm -virtfs local,path="$TARGETDIR",mount_tag=shared_tag,security_model=mapped-xattr
             '';
           }
         );

@@ -1,7 +1,7 @@
 {
   modules = [
     (
-      { lib, config, modulesPath, system, agenix, disko, nvim, secrets, storeContents, ... }:
+      { lib, config, modulesPath, system, agenix, disko, nvim, secrets, storeContents, allUserKeys, ... }:
       {
         imports = [
           "${modulesPath}/installer/cd-dvd/installation-cd-minimal.nix"
@@ -31,7 +31,7 @@
               ]
           );
         };
-        users.users.root.openssh.authorizedKeys.keys = (import "${secrets}/secrets.nix").allUsers.publicKeys;
+        users.users.root.openssh.authorizedKeys.keys = allUserKeys;
         isoImage.storeContents = storeContents;
         system.extraDependencies = storeContents;
         environment.systemPackages = [
