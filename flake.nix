@@ -106,22 +106,22 @@
             text = ''
 
               TARGETDIR=$(mktemp -d)
+              PAYLOAD_DIR=$(mktemp -d)
               export NIX_DISK_IMAGE="$TARGETDIR/${name}.qcow2"
-              trap 'rm -rf "$TARGETDIR"' EXIT
+              export PAYLOAD_DIR=$PAYLOAD_DIR
+              trap 'rm -rf "$TARGETDIR" "$PAYLOAD_DIR"' EXIT
 
               echo "Decrypting private keys..."
               for file in ${./secrets/keys/prv}/${name}/*; do
-                age -d -i ~/.ssh/id_ed25519 "$file" > "$TARGETDIR/$(basename "''${file%.age}")"
+                age -d -i ~/.ssh/id_ed25519 "$file" > "$PAYLOAD_DIR/$(basename "''${file%.age}")"
               done
 
               echo "Copying public keys..."
               for file in ${./secrets/keys/pub}/${name}/*; do
-                cp "$file" "$TARGETDIR/$(basename "$file")"
+                cp "$file" "$PAYLOAD_DIR/$(basename "$file")"
               done
 
-              ${
-                self.nixosConfigurations.${name}.config.system.build.vm
-              }/bin/run-${name}-vm -virtfs local,path="$TARGETDIR",mount_tag=shared_tag,security_model=mapped-xattr
+              ${self.nixosConfigurations.${name}.config.system.build.vm}/bin/run-${name}-vm
             '';
           }
         );

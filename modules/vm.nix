@@ -1,15 +1,10 @@
-{ lib, ... }: {
+{
   virtualisation.vmVariant = {
 
-    # Add '/payload' fileesystem to load private keys to vm
-    fileSystems."/payload" = lib.mkOverride 10 {
-      device = "shared_tag";
-      fsType = "9p";
-      options = [
-        "trans=virtio"
-        "version=9p2000.L"
-        "nofail"
-      ];
+    virtualisation.sharedDirectories.payload = {
+      source = ''"''${PAYLOAD_DIR:?}"'';
+      target = "/payload";
+      securityModel = "mapped-xattr";
     };
 
     # VM Settings
