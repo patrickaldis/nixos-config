@@ -3,6 +3,7 @@
     ./shared.nix
     ./hardware-configuration.nix
     ./disko.nix
+    ./users.nix
 
     ({import-tree, home-manager, ...}:{
       imports = [
