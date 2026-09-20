@@ -48,14 +48,11 @@ in
       overrideConfig = true;
       powerdevil.AC = {
         powerButtonAction = "shutDown";
-        dimDisplay = {
-          enable = true;
-          idleTimeout = 60 * 5;
-        };
         turnOffDisplay.idleTimeout = 60 * 10;
       };
       configFile."applications-blacklistrc"."Applications".blacklist =
         builtins.concatStringsSep "," hiddenApplications;
+      configFile."plasmabigscreenrc"."General".pmInhibitionEnabled = false;
     };
   };
 
@@ -73,7 +70,7 @@ in
     ];
   };
   services.desktopManager.plasma6.enable = true;
-  environment.systemPackages = [ bigscreen ];
+  environment.systemPackages = [ bigscreen pkgs.stremio-linux-shell ];
 
   # tv-session user
   users.users.tv-session = {
