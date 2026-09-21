@@ -11,7 +11,6 @@
       addresses = true;
     };
   };
-  networking.hostName = "kitty";
   networking.wireless = {
     enable = true;
     scanOnLowSignal = false;

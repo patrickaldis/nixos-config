@@ -39,6 +39,7 @@
               system = "x86_64-linux";
               secrets = ./secrets;
               allUserKeys = (import ./secrets/secrets.nix).allUsers.publicKeys;
+              hostName = name;
             }
             // builtins.listToAttrs (
               map

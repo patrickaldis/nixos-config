@@ -49,7 +49,6 @@
             addresses = true;
           };
         };
-        networking.hostName = "lydia";
 
         system.activationScripts.installSshKey = {
           text = /* bash */ ''
