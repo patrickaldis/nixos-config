@@ -485,7 +485,8 @@
         "import-tree": "import-tree",
         "nixpkgs": "nixpkgs_2",
         "nvim": "nvim",
-        "plasma-manager": "plasma-manager"
+        "plasma-manager": "plasma-manager",
+        "virglrenderer": "virglrenderer"
       }
     },
     "systems": {
@@ -501,6 +502,22 @@
         "owner": "nix-systems",
         "repo": "default",
         "type": "github"
+      }
+    },
+    "virglrenderer": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1789957411,
+        "narHash": "sha256-uM3jg4k3tMQrELvYz//fgjjm8HcYg1jmtvgPEhGh7iE=",
+        "ref": "refs/heads/main",
+        "rev": "7d4eb14cc20be87d6c4eae984352d56f1ac24ba6",
+        "revCount": 4104,
+        "type": "git",
+        "url": "https://gitlab.freedesktop.org/virgl/virglrenderer.git"
+      },
+      "original": {
+        "type": "git",
+        "url": "https://gitlab.freedesktop.org/virgl/virglrenderer.git"
       }
     },
     "workspace-diagnostics": {

@@ -16,6 +16,10 @@
       url = "github:nix-community/plasma-manager";
       inputs.nixpkgs.follows = "home-manager";
     };
+    virglrenderer = {
+      url = "git+https://gitlab.freedesktop.org/virgl/virglrenderer.git";
+      flake = false;
+    };
   };
 
   outputs =
@@ -54,6 +58,7 @@
                   "import-tree"
                   "home-manager"
                   "plasma-manager"
+                  "virglrenderer"
                 ]
             );
           }
