@@ -14,6 +14,9 @@
       home-manager.users.patrick = (import-tree ./home);
     })
     {
+      system.stateVersion = "26.11";
+    }
+    {
       age.init = keys: /* sh */ ''
         install -D -m 600 ${keys}/elizabeth /etc/ssh/ssh_host_ed25519_key
         install -D -m 644 ${keys}/elizabeth.pub /etc/ssh/ssh_host_ed25519_key.pub

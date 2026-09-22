@@ -26,7 +26,7 @@
         ripgrep
         nurl
         wl-clipboard
-        xfce.xfce4-power-manager
+        xfce4-power-manager
         teamtype
         dex
         meld
@@ -78,26 +78,21 @@
     zoxide.enable = true;
     git = {
       enable = true;
-      userName = "Patrick Aldis";
-      userEmail = "patricktaldis@gmail.com";
+      settings = {
+        user = {
+          name = "Patrick Aldis";
+          email = "patricktaldis@gmail.com";
+        };
+      };
       ignores = [
         ".direnv"
         ".envrc"
         ".nvim.lua"
       ];
     };
-    # zed-editor = {
-    #   enable = true;
-    #   extraPackages = [
-    #     pkgs.vscode-json-languageserver
-    #   ];
-    # };
     ssh = {
       enable = true;
-      # extraConfig = '' # temporarily disabled -- using openssh agent instead of 1password
-      #   Host *
-      #       IdentityAgent ${onePassPath}
-      # '';
+      enableDefaultConfig = false;
     };
   };
 
