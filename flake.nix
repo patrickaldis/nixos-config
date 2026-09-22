@@ -187,10 +187,11 @@
 
               # Add keys to ISO
               xorriso -indev "$ISO_OUT" -outdev "$ISO_OUT" \
-                -map "$TMPDIR/lydia" /lydia \
-                -map "$TMPDIR/lydia.pub" /lydia.pub \
-                -map "$TMPDIR/root_lydia" /root_lydia \
-                -map "$TMPDIR/root_lydia.pub" /root_lydia.pub \
+                -mkdir /payload \
+                -map "$TMPDIR/lydia" /payload/lydia \
+                -map "$TMPDIR/lydia.pub" /payload/lydia.pub \
+                -map "$TMPDIR/root_lydia" /payload/root_lydia \
+                -map "$TMPDIR/root_lydia.pub" /payload/root_lydia.pub \
                 -boot_image any replay \
                 2>/dev/null
 

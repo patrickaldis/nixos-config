@@ -50,16 +50,15 @@
           };
         };
 
-        system.activationScripts.installSshKey = {
-          text = /* bash */ ''
-            install -D -m 600 /iso/lydia /etc/ssh/ssh_host_ed25519_key
-            install -D -m 644 /iso/lydia.pub /etc/ssh/ssh_host_ed25519_key.pub
-            install -D -m 600 /iso/root_lydia /root/.ssh/id_ed25519
-            install -D -m 644 /iso/root_lydia.pub /root/.ssh/id_ed25519.pub
-          '';
-          deps = [ ];
-        };
-        system.activationScripts.agenixNewGeneration.deps = lib.mkAfter [ "installSshKey" ];
+        age.init = keys: /* bash */ ''
+          install -D -m 600 ${keys}/lydia /etc/ssh/ssh_host_ed25519_key
+          install -D -m 644 ${keys}/lydia.pub /etc/ssh/ssh_host_ed25519_key.pub
+          install -D -m 600 ${keys}/root_lydia /root/.ssh/id_ed25519
+          install -D -m 644 ${keys}/root_lydia.pub /root/.ssh/id_ed25519.pub
+        '';
+
+        system.activationScripts.linkPayload.text = /* bash */ "ln -sfn /iso/payload /payload";
+        system.activationScripts.installSshKey.deps = [ "linkPayload" ];
       }
     )
   ];
