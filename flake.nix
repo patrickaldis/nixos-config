@@ -111,18 +111,16 @@
             );
             text = ''
 
-              TARGETDIR=$(mktemp -d)
               PAYLOAD_DIR=$(mktemp -d)
-              export NIX_DISK_IMAGE="$TARGETDIR/${name}.qcow2"
               export PAYLOAD_DIR=$PAYLOAD_DIR
-              trap 'rm -rf "$TARGETDIR" "$PAYLOAD_DIR"' EXIT
+              export NIX_SWTPM_DIR
+              NIX_SWTPM_DIR=$(mktemp -d)
+              trap 'rm -rf "$PAYLOAD_DIR" "$NIX_SWTPM_DIR"' EXIT
 
-              echo "Decrypting private keys..."
               for file in ${./secrets/keys/prv}/${name}/*; do
                 age -d -i ~/.ssh/id_ed25519 "$file" > "$PAYLOAD_DIR/$(basename "''${file%.age}")"
               done
 
-              echo "Copying public keys..."
               for file in ${./secrets/keys/pub}/${name}/*; do
                 cp "$file" "$PAYLOAD_DIR/$(basename "$file")"
               done
@@ -175,7 +173,6 @@
               TMPDIR=$(mktemp -d)
               trap 'rm -rf "$TMPDIR"' EXIT
 
-              echo "Decrypting keys..."
               age -d -i ~/.ssh/id_ed25519 secrets/keys/prv/lydia.age > "$TMPDIR/lydia"
               age -d -i ~/.ssh/id_ed25519 secrets/keys/prv/root_lydia.age > "$TMPDIR/root_lydia"
               cp secrets/keys/pub/lydia.pub "$TMPDIR/lydia.pub"
@@ -185,7 +182,6 @@
               ISO_SRC="$(ls ${(mkInstaller name).config.system.build.isoImage}/iso/*.iso)"
               ISO_OUT="installer.iso"
 
-              echo "Adding keys to ISO..."
               cp "$ISO_SRC" "$ISO_OUT"
               chmod +w "$ISO_OUT"
 

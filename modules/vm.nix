@@ -1,6 +1,8 @@
 {
   virtualisation.vmVariant = {
 
+    virtualisation.diskImage = null;
+    virtualisation.tpm.enable = true;
     virtualisation.sharedDirectories.payload = {
       source = ''"''${PAYLOAD_DIR:?}"'';
       target = "/payload";
