@@ -97,7 +97,7 @@
           for file in ${./secrets/payload}/${host}/*; do
             base="$(basename "$file")"
             case "$base" in
-              *.age) age -d -i ~/.ssh/id_ed25519 "$file" > "$PAYLOAD/''${base%.age}" ;;
+              *.age) age -d -i "$IDENTITY" "$file" > "$PAYLOAD/''${base%.age}" ;;
               *) cp "$file" "$PAYLOAD/$base" ;;
             esac
           done
@@ -131,6 +131,7 @@
               trap 'rm -rf "$PAYLOAD_DIR" "$NIX_SWTPM_DIR"' EXIT
 
               PAYLOAD="$PAYLOAD_DIR"
+              IDENTITY="$HOME/.ssh/id_ed25519"
               ${mkPayload name}
 
               ${self.nixosConfigurations.${name}.config.system.build.vm}/bin/run-${name}-vm
@@ -148,13 +149,26 @@
               ])
               ++ [ inputs.disko.packages.${system}.default ];
             text = ''
-              sudo disko --mode disko --flake ${self}#${name}
+              # Every step here needs root, so escalate once and stay there.
+              # Re-exec on argument count, not on uid: the identity has to be
+              # captured before escalating (root's ~ isn't ours), and keying
+              # off the argument means this can never loop.
+              if [ "$#" -eq 0 ]; then
+                exec sudo "$0" "$HOME/.ssh/id_ed25519"
+              fi
+              IDENTITY="$1"
+              if [ "$(id -u)" -ne 0 ]; then
+                echo "$0: sudo did not give us root" >&2
+                exit 1
+              fi
+
+              disko --mode disko --flake ${self}#${name}
 
               PAYLOAD=/mnt/payload
-              mkdir "$PAYLOAD"
+              install -d -m 700 "$PAYLOAD"
               ${mkPayload name}
 
-              sudo nixos-install --flake ${self}#${name} --no-root-passwd
+              nixos-install --flake ${self}#${name} --no-root-passwd
             '';
           }
         );
@@ -170,6 +184,7 @@
               PAYLOAD=$(mktemp -d)
               trap 'rm -rf "$PAYLOAD"' EXIT
 
+              IDENTITY="$HOME/.ssh/id_ed25519"
               ${mkPayload "lydia"}
 
               # Copy ISO and make writable

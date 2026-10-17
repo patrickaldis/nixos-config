@@ -11,11 +11,11 @@
         nixpkgs.hostPlatform = system;
         system.stateVersion = "26.05";
         age.secrets.wifi = {
-          file = "${secrets}/wifi.age";
+          file = secrets + "/network/wifi.age";
           mode = "0440";
           group = "wpa_supplicant";
         };
-        age.secrets.root-pass.file = "${secrets}/root-pass.age";
+        age.secrets.root-pass.file = secrets + "/password/root-pass.age";
         users.users.patrick = {
           isNormalUser = true;
           hashedPasswordFile = config.age.secrets.root-pass.path;

@@ -1,6 +1,6 @@
 { config, secrets, ... }:{
   age.secrets.wifi = {
-    file = "${secrets}/wifi.age";
+    file = secrets + "/network/wifi.age";
     mode = "0440";
     group = "wpa_supplicant";
   };
