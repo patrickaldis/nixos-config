@@ -67,6 +67,7 @@
       systems = [
         "kitty"
         "elizabeth"
+        "lydia"
       ];
 
       mkSystem =

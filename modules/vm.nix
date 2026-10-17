@@ -1,5 +1,20 @@
+{ lib, config, ... }:
 {
   virtualisation.vmVariant = {
+
+    # hosts/*/default.nix import installer/cd-dvd/iso-image.nix, which
+    # defines its own register-nix-paths.service (loading a
+    # /nix/store/nix-path-registration baked into a real ISO's squashfs).
+    # That gets merged with qemu-vm.nix's own register-nix-paths.service
+    # (which reads the registration file from the `regInfo=` kernel param
+    # instead), and the merged script's ISO half fails under `set -e` since
+    # no such file exists when /nix/store is shared straight from the host.
+    # Override back to just the VM-correct behaviour here.
+    systemd.services.register-nix-paths.script = lib.mkVMOverride ''
+      if [[ "$(cat /proc/cmdline)" =~ regInfo=([^ ]*) ]]; then
+        ${lib.getExe' config.nix.package.out "nix-store"} --load-db < "''${BASH_REMATCH[1]}"
+      fi
+    '';
 
     virtualisation.diskImage = null;
     virtualisation.tpm.enable = true;
