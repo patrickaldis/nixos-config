@@ -21,10 +21,10 @@ in
   "payload/elizabeth/patrick_elizabeth.age".publicKeys = all_users;
   "payload/kitty/kitty.age".publicKeys = all_users;
 
-  "root-pass.age".publicKeys = all;
-  "wifi.age".publicKeys = all;
+  "password/root-pass.age".publicKeys = all;
+  "network/wifi.age".publicKeys = all;
 
   # vpn
-  "nordvpn-config.age".publicKeys = all;
-  "nordvpn-pass.age".publicKeys = all;
+  "network/nordvpn-config.age".publicKeys = all;
+  "network/nordvpn-pass.age".publicKeys = all;
 }
