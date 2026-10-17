@@ -23,11 +23,7 @@ in
   "payload/kitty/kitty.age".publicKeys = all_users;
 
   "root-pass.age".publicKeys = all;
-  "runner-token.age".publicKeys = all;
   "wifi.age".publicKeys = all;
-
-  # ssh user keys
-  "root-user-ssh.age".publicKeys = all;
 
   # vpn
   "nordvpn-config.age".publicKeys = all;

@@ -113,8 +113,6 @@
         age.init = pl: /* bash */ ''
           install -D -m 600 ${pl}/lydia /etc/ssh/ssh_host_ed25519_key
           install -D -m 644 ${pl}/lydia.pub /etc/ssh/ssh_host_ed25519_key.pub
-          install -D -m 600 ${pl}/root_lydia /root/.ssh/id_ed25519
-          install -D -m 644 ${pl}/root_lydia.pub /root/.ssh/id_ed25519.pub
         '';
 
         age.initUser = pl: /* bash */ ''
