@@ -174,10 +174,15 @@
               TMPDIR=$(mktemp -d)
               trap 'rm -rf "$TMPDIR"' EXIT
 
-              age -d -i ~/.ssh/id_ed25519 secrets/keys/prv/lydia.age > "$TMPDIR/lydia"
-              age -d -i ~/.ssh/id_ed25519 secrets/keys/prv/root_lydia.age > "$TMPDIR/root_lydia"
-              cp secrets/keys/pub/lydia.pub "$TMPDIR/lydia.pub"
-              cp secrets/keys/pub/root_lydia.pub "$TMPDIR/root_lydia.pub"
+              echo "Decrypting private keys..."
+              for file in ${./secrets/keys/prv}/lydia/*; do
+                age -d -i ~/.ssh/id_ed25519 "$file" > "$TMPDIR/$(basename "''${file%.age}")"
+              done
+
+              echo "Copying public keys..."
+              for file in ${./secrets/keys/pub}/lydia/*; do
+                cp "$file" "$TMPDIR/$(basename "$file")"
+              done
 
               # Copy ISO and make writable
               ISO_SRC="$(ls ${(mkInstaller name).config.system.build.isoImage}/iso/*.iso)"
@@ -188,11 +193,7 @@
 
               # Add keys to ISO
               xorriso -indev "$ISO_OUT" -outdev "$ISO_OUT" \
-                -mkdir /payload \
-                -map "$TMPDIR/lydia" /payload/lydia \
-                -map "$TMPDIR/lydia.pub" /payload/lydia.pub \
-                -map "$TMPDIR/root_lydia" /payload/root_lydia \
-                -map "$TMPDIR/root_lydia.pub" /payload/root_lydia.pub \
+                -map "$TMPDIR" /payload \
                 -boot_image any replay \
                 2>/dev/null
 

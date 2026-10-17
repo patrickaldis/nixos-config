@@ -17,6 +17,7 @@ in
 
   "keys/prv/lydia/lydia.age".publicKeys = all_users;
   "keys/prv/lydia/root_lydia.age".publicKeys = all_users;
+  "keys/prv/lydia/patrick_lydia.age".publicKeys = all_users;
   "keys/prv/elizabeth/elizabeth.age".publicKeys = all_users;
   "keys/prv/elizabeth/patrick_elizabeth.age".publicKeys = all_users;
   "keys/prv/kitty/kitty.age".publicKeys = all_users;

@@ -4,7 +4,7 @@
       { lib, config, pkgs, modulesPath, system, agenix, disko, nvim, secrets, storeContents, allUserKeys, ... }:
       {
         imports = [
-          "${modulesPath}/installer/cd-dvd/iso-image.nix" 
+          "${modulesPath}/installer/cd-dvd/iso-image.nix"
           agenix.nixosModules.default
         ];
 
@@ -63,6 +63,45 @@
           enable = true;
           settings.PermitRootLogin = "prohibit-password";
         };
+        # Pinned so the unattended clone doesn't trip StrictHostKeyChecking.
+        programs.ssh.knownHosts.github = {
+          hostNames = [
+            "github.com"
+            "ssh.github.com"
+          ];
+          publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOMqqnkVzrm0SdG6UOoqKLsabgH5C9okWi0dh2l9GKJl";
+        };
+
+        # Clone the config into patrick's home once the network is up. The key
+        # this authenticates with is installed during activation by age.initUser.
+        systemd.services.clone-nixos-config = {
+          description = "Clone nixos-config into patrick's home directory";
+          wantedBy = [ "multi-user.target" ];
+          wants = [ "network-online.target" ];
+          after = [ "network-online.target" ];
+          path = [
+            pkgs.git
+            pkgs.openssh
+          ];
+          unitConfig.ConditionPathExists = [
+            "/home/patrick/.ssh/id_ed25519"
+            "!/home/patrick/nixos-config"
+          ];
+          serviceConfig = {
+            Type = "oneshot";
+            User = "patrick";
+            Group = "users";
+            WorkingDirectory = "/home/patrick";
+            Environment = "HOME=/home/patrick";
+            # Wireless may not have associated on the first attempt.
+            Restart = "on-failure";
+            RestartSec = 10;
+          };
+          script = /* bash */ ''
+            git clone git@github.com:patrickaldis/nixos-config.git
+          '';
+        };
+
         services.avahi = {
           enable = true;
           publish = {
@@ -76,6 +115,12 @@
           install -D -m 644 ${keys}/lydia.pub /etc/ssh/ssh_host_ed25519_key.pub
           install -D -m 600 ${keys}/root_lydia /root/.ssh/id_ed25519
           install -D -m 644 ${keys}/root_lydia.pub /root/.ssh/id_ed25519.pub
+        '';
+
+        age.initUser = keys: /* bash */ ''
+          install -d -m 700 -o patrick -g users /home/patrick/.ssh
+          install -m 600 -o patrick -g users ${keys}/patrick_lydia /home/patrick/.ssh/id_ed25519
+          install -m 644 -o patrick -g users ${keys}/patrick_lydia.pub /home/patrick/.ssh/id_ed25519.pub
         '';
 
         # Make bootable
