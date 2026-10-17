@@ -7,8 +7,8 @@ let
 
   # users
   patrick_mary = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMUgf+mHH85a2lwOpFmmFnK6jiy+Hzjl/LaGMxKc6zpG patrick@mary";
-  root_lydia = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIL9j3Z2towbEk1IXl8YeLuDzEodlD4vZKjJa9DE8ldry root@lydia";
-  all_users = [patrick_mary root_lydia];
+  patrick_lydia = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIB+AwQptINpEi8HkgGQVs3F2kNSPUuzRauoceszSL6UT patrick@lydia";
+  all_users = [patrick_mary patrick_lydia];
 
   all = all_users ++ all_systems;
 in
@@ -16,7 +16,6 @@ in
   allUsers.publicKeys = all_users;
 
   "payload/lydia/lydia.age".publicKeys = all_users;
-  "payload/lydia/root_lydia.age".publicKeys = all_users;
   "payload/lydia/patrick_lydia.age".publicKeys = all_users;
   "payload/elizabeth/elizabeth.age".publicKeys = all_users;
   "payload/elizabeth/patrick_elizabeth.age".publicKeys = all_users;
