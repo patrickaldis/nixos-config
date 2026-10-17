@@ -1,6 +1,6 @@
 { agenix, config, lib, ... }:
 let
-  keys = "/payload";
+  pl = "/payload";
 in
 {
   imports = [
@@ -11,9 +11,9 @@ in
     init = lib.mkOption {
       type = lib.types.functionTo lib.types.str;
       description = ''
-        Initialisation script to set up keys. Runs before agenix decrypts
-        secrets, since age.identityPaths points at the host key this installs,
-        so only host identities belong here.
+        Initialisation script to set up keys, given the payload directory.
+        Runs before agenix decrypts secrets, since age.identityPaths points at
+        the host key this installs, so only host identities belong here.
       '';
     };
     initUser = lib.mkOption {
@@ -29,8 +29,8 @@ in
   config = {
     system.activationScripts.installSshKey = {
       text = /* sh */ ''
-        if [ -d ${keys} ]; then
-          ${config.age.init keys}
+        if [ -d ${pl} ]; then
+          ${config.age.init pl}
         fi
       '';
       deps = [ ];
@@ -39,9 +39,9 @@ in
 
     system.activationScripts.installUserSshKey = {
       text = /* sh */ ''
-        if [ -d ${keys} ]; then
+        if [ -d ${pl} ]; then
           :
-          ${config.age.initUser keys}
+          ${config.age.initUser pl}
         fi
       '';
       deps = [
@@ -51,7 +51,7 @@ in
     };
 
     system.activationScripts.removePayload = {
-      text = /* sh */ "rm -rf ${keys}";
+      text = /* sh */ "rm -rf ${pl}";
       deps = [ "installUserSshKey" ];
     };
   };

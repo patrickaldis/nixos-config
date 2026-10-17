@@ -110,17 +110,17 @@
           };
         };
 
-        age.init = keys: /* bash */ ''
-          install -D -m 600 ${keys}/lydia /etc/ssh/ssh_host_ed25519_key
-          install -D -m 644 ${keys}/lydia.pub /etc/ssh/ssh_host_ed25519_key.pub
-          install -D -m 600 ${keys}/root_lydia /root/.ssh/id_ed25519
-          install -D -m 644 ${keys}/root_lydia.pub /root/.ssh/id_ed25519.pub
+        age.init = pl: /* bash */ ''
+          install -D -m 600 ${pl}/lydia /etc/ssh/ssh_host_ed25519_key
+          install -D -m 644 ${pl}/lydia.pub /etc/ssh/ssh_host_ed25519_key.pub
+          install -D -m 600 ${pl}/root_lydia /root/.ssh/id_ed25519
+          install -D -m 644 ${pl}/root_lydia.pub /root/.ssh/id_ed25519.pub
         '';
 
-        age.initUser = keys: /* bash */ ''
+        age.initUser = pl: /* bash */ ''
           install -d -m 700 -o patrick -g users /home/patrick/.ssh
-          install -m 600 -o patrick -g users ${keys}/patrick_lydia /home/patrick/.ssh/id_ed25519
-          install -m 644 -o patrick -g users ${keys}/patrick_lydia.pub /home/patrick/.ssh/id_ed25519.pub
+          install -m 600 -o patrick -g users ${pl}/patrick_lydia /home/patrick/.ssh/id_ed25519
+          install -m 644 -o patrick -g users ${pl}/patrick_lydia.pub /home/patrick/.ssh/id_ed25519.pub
         '';
 
         # Make bootable

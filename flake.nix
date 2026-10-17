@@ -91,6 +91,18 @@
           }) systems
         );
 
+      mkPayload =
+        host: /* bash */ ''
+          echo "Assembling payload for ${host}..."
+          for file in ${./secrets/payload}/${host}/*; do
+            base="$(basename "$file")"
+            case "$base" in
+              *.age) age -d -i ~/.ssh/id_ed25519 "$file" > "$PAYLOAD/''${base%.age}" ;;
+              *) cp "$file" "$PAYLOAD/$base" ;;
+            esac
+          done
+        '';
+
       pkgs = import inputs.nixpkgs { inherit system; };
     in
     {
@@ -118,13 +130,8 @@
               NIX_SWTPM_DIR=$(mktemp -d)
               trap 'rm -rf "$PAYLOAD_DIR" "$NIX_SWTPM_DIR"' EXIT
 
-              for file in ${./secrets/keys/prv}/${name}/*; do
-                age -d -i ~/.ssh/id_ed25519 "$file" > "$PAYLOAD_DIR/$(basename "''${file%.age}")"
-              done
-
-              for file in ${./secrets/keys/pub}/${name}/*; do
-                cp "$file" "$PAYLOAD_DIR/$(basename "$file")"
-              done
+              PAYLOAD="$PAYLOAD_DIR"
+              ${mkPayload name}
 
               ${self.nixosConfigurations.${name}.config.system.build.vm}/bin/run-${name}-vm
             '';
@@ -143,19 +150,9 @@
             text = ''
               sudo disko --mode disko --flake ${self}#${name}
 
-              TARGETDIR=/mnt/payload
-
-              mkdir "$TARGETDIR"
-
-              echo "Decrypting private keys..."
-              for file in ${./secrets/keys/prv}/${name}/*; do
-                age -d -i ~/.ssh/id_ed25519 "$file" > "$TARGETDIR/$(basename "''${file%.age}")"
-              done
-
-              echo "Copying public keys..."
-              for file in ${./secrets/keys/pub}/${name}/*; do
-                cp "$file" "$TARGETDIR/$(basename "$file")"
-              done
+              PAYLOAD=/mnt/payload
+              mkdir "$PAYLOAD"
+              ${mkPayload name}
 
               sudo nixos-install --flake ${self}#${name} --no-root-passwd
             '';
@@ -170,19 +167,10 @@
               xorriso
             ];
             text = ''
-              # Decrypt keys to temp files
-              TMPDIR=$(mktemp -d)
-              trap 'rm -rf "$TMPDIR"' EXIT
+              PAYLOAD=$(mktemp -d)
+              trap 'rm -rf "$PAYLOAD"' EXIT
 
-              echo "Decrypting private keys..."
-              for file in ${./secrets/keys/prv}/lydia/*; do
-                age -d -i ~/.ssh/id_ed25519 "$file" > "$TMPDIR/$(basename "''${file%.age}")"
-              done
-
-              echo "Copying public keys..."
-              for file in ${./secrets/keys/pub}/lydia/*; do
-                cp "$file" "$TMPDIR/$(basename "$file")"
-              done
+              ${mkPayload "lydia"}
 
               # Copy ISO and make writable
               ISO_SRC="$(ls ${(mkInstaller name).config.system.build.isoImage}/iso/*.iso)"
@@ -193,7 +181,7 @@
 
               # Add keys to ISO
               xorriso -indev "$ISO_OUT" -outdev "$ISO_OUT" \
-                -map "$TMPDIR" /payload \
+                -map "$PAYLOAD" /payload \
                 -boot_image any replay \
                 2>/dev/null
 

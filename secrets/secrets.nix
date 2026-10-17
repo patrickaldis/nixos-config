@@ -15,12 +15,12 @@ in
 {
   allUsers.publicKeys = all_users;
 
-  "keys/prv/lydia/lydia.age".publicKeys = all_users;
-  "keys/prv/lydia/root_lydia.age".publicKeys = all_users;
-  "keys/prv/lydia/patrick_lydia.age".publicKeys = all_users;
-  "keys/prv/elizabeth/elizabeth.age".publicKeys = all_users;
-  "keys/prv/elizabeth/patrick_elizabeth.age".publicKeys = all_users;
-  "keys/prv/kitty/kitty.age".publicKeys = all_users;
+  "payload/lydia/lydia.age".publicKeys = all_users;
+  "payload/lydia/root_lydia.age".publicKeys = all_users;
+  "payload/lydia/patrick_lydia.age".publicKeys = all_users;
+  "payload/elizabeth/elizabeth.age".publicKeys = all_users;
+  "payload/elizabeth/patrick_elizabeth.age".publicKeys = all_users;
+  "payload/kitty/kitty.age".publicKeys = all_users;
 
   "root-pass.age".publicKeys = all;
   "runner-token.age".publicKeys = all;

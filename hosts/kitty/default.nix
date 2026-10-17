@@ -2,9 +2,9 @@
   modules = [
 
     {
-      age.init = keys: /* sh */ ''
-        install -D -m 600 ${keys}/kitty /etc/ssh/ssh_host_ed25519_key
-        install -D -m 644 ${keys}/kitty.pub /etc/ssh/ssh_host_ed25519_key.pub
+      age.init = pl: /* sh */ ''
+        install -D -m 600 ${pl}/kitty /etc/ssh/ssh_host_ed25519_key
+        install -D -m 644 ${pl}/kitty.pub /etc/ssh/ssh_host_ed25519_key.pub
       '';
     }
 
