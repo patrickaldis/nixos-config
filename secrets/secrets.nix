@@ -28,4 +28,5 @@ in
   # vpn
   "network/nordvpn-config.age".publicKeys = all;
   "network/nordvpn-pass.age".publicKeys = all;
+  "network/nordvpn-wg.age".publicKeys = all;
 }

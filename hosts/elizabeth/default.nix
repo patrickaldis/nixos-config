@@ -4,6 +4,7 @@
     ./hardware-configuration.nix
     ./disko.nix
     ./users.nix
+    ./nordvpn.nix
 
     ({ import-tree, home-manager, ... }: {
       imports = [
