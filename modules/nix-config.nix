@@ -1,4 +1,4 @@
-{ virglrenderer, ... }: {
+{ virglrenderer, nvim, system, ... }: {
   nix.settings = {
     substituters = [
       "https://hyprland.cachix.org"
@@ -31,6 +31,7 @@
         patches = [ ];
       });
       qemu = super.qemu.override { virglrenderer = self.virglrenderer; };
+      neovim = nvim.packages.${system}.default;
     })
   ];
 }
