@@ -5,6 +5,7 @@
     ./disko.nix
     ./users.nix
     ./nordvpn.nix
+    ./stremio-vpn.nix
 
     ({ import-tree, home-manager, ... }: {
       imports = [

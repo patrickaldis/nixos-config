@@ -1,4 +1,4 @@
-({ pkgs, stremio, system, ... }: {
+({ pkgs, ... }: {
   nixpkgs.config.allowUnfree = true;
 
   boot.loader = {
@@ -210,7 +210,7 @@
 
     wofi
     kitty
-  ]) ++ [stremio.packages.${system}.default];
+  ]);
 
   services.fprintd = {
     enable = true;
