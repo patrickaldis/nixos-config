@@ -21,6 +21,8 @@
       age.init = pl: /* sh */ ''
         install -D -m 600 ${pl}/elizabeth /etc/ssh/ssh_host_ed25519_key
         install -D -m 644 ${pl}/elizabeth.pub /etc/ssh/ssh_host_ed25519_key.pub
+        install -D -m 600 ${pl}/root_elizabeth /root/.ssh/id_ed25519
+        install -D -m 644 ${pl}/root_elizabeth.pub /root/.ssh/id_ed25519.pub
       '';
 
       age.initUser = pl: /* sh */ ''

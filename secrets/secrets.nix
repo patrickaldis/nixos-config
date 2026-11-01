@@ -20,6 +20,7 @@ in
   "payload/lydia/patrick_lydia.age".publicKeys = all_users;
   "payload/elizabeth/elizabeth.age".publicKeys = all_users;
   "payload/elizabeth/patrick_elizabeth.age".publicKeys = all_users;
+  "payload/elizabeth/root_elizabeth.age".publicKeys = all_users;
   "payload/kitty/kitty.age".publicKeys = all_users;
 
   "password/root-pass.age".publicKeys = all;
