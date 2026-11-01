@@ -70,7 +70,7 @@ in
     ];
   };
   services.desktopManager.plasma6.enable = true;
-  environment.systemPackages = [ bigscreen pkgs.stremio-linux-shell ];
+  programs.stremio-vpn.enable = true;
 
   # tv-session user
   users.users.tv-session = {

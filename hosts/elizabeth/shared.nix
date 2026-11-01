@@ -12,6 +12,8 @@
 
   services.fwupd.enable = true;
 
+  programs.stremio-vpn.enable = true;
+
   services.avahi = {
     enable = true;
     nssmdns4 = true; # adds mdns to nsswitch.conf for IPv4
