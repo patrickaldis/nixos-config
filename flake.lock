@@ -380,6 +380,22 @@
         "type": "github"
       }
     },
+    "nixpkgs_6": {
+      "locked": {
+        "lastModified": 1792094642,
+        "narHash": "sha256-zp8ToDMnqZcu4o4IH9pdwXFXGp7yLm/M0dEnNWnyd7I=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "fe13242281a67641c0102cdb1087f0ebe586c7df",
+        "type": "github"
+      },
+      "original": {
+        "owner": "NixOS",
+        "ref": "nixos-unstable",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
     "nvim": {
       "inputs": {
         "blink-pairs": "blink-pairs",
@@ -477,6 +493,23 @@
         "type": "github"
       }
     },
+    "rivulet-engine-src": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1792247051,
+        "narHash": "sha256-vS8ycwHg+sruf5oGBGdSamDsDI6OyR2Z5BghQmTCMss=",
+        "owner": "rivulet-kodi",
+        "repo": "rivulet-engine",
+        "rev": "fea8c70317edb719311180458a30b79ad6eb8619",
+        "type": "github"
+      },
+      "original": {
+        "owner": "rivulet-kodi",
+        "ref": "v0.27.1",
+        "repo": "rivulet-engine",
+        "type": "github"
+      }
+    },
     "root": {
       "inputs": {
         "agenix": "agenix",
@@ -486,7 +519,45 @@
         "nixpkgs": "nixpkgs_2",
         "nvim": "nvim",
         "plasma-manager": "plasma-manager",
+        "stremio": "stremio",
         "virglrenderer": "virglrenderer"
+      }
+    },
+    "stremio": {
+      "inputs": {
+        "nixpkgs": "nixpkgs_6",
+        "rivulet-engine-src": "rivulet-engine-src",
+        "stremio-web-src": "stremio-web-src"
+      },
+      "locked": {
+        "lastModified": 1793565539,
+        "narHash": "sha256-QyVI5f7bteRAoyEf/C1L/VP0A1VruMPzszUc0SlRKzU=",
+        "ref": "refs/heads/master",
+        "rev": "41862b9df34208a6fa43d58029f8a2a9fe22a0c1",
+        "revCount": 1,
+        "type": "git",
+        "url": "ssh://git@github.com/patrickaldis/stremio.git"
+      },
+      "original": {
+        "type": "git",
+        "url": "ssh://git@github.com/patrickaldis/stremio.git"
+      }
+    },
+    "stremio-web-src": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1791817038,
+        "narHash": "sha256-wNo4JKInwjMT1bdypmofEqT9ZSbYTNXnwccdcrMDAxM=",
+        "owner": "Stremio",
+        "repo": "stremio-web",
+        "rev": "9d1d526591b4c076c7307a1ba9ec056d483f169a",
+        "type": "github"
+      },
+      "original": {
+        "owner": "Stremio",
+        "ref": "v5.0.0-beta.42",
+        "repo": "stremio-web",
+        "type": "github"
       }
     },
     "systems": {

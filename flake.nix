@@ -3,6 +3,7 @@
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     agenix.url = "github:ryantm/agenix";
     nvim.url = "github:patrickaldis/nvim-config";
+    stremio.url = "git+ssh://git@github.com/patrickaldis/stremio.git";
     disko = {
       url = "github:nix-community/disko";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -55,6 +56,7 @@
                   "disko"
                   "agenix"
                   "nvim"
+		  "stremio"
                   "import-tree"
                   "home-manager"
                   "plasma-manager"

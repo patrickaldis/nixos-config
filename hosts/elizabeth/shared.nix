@@ -1,4 +1,4 @@
-({ pkgs, ... }: {
+({ pkgs, stremio, system, ... }: {
   nixpkgs.config.allowUnfree = true;
 
   boot.loader = {
@@ -182,7 +182,7 @@
   services.gnome.gnome-keyring.enable = true;
   security.pam.services.gdm-password.enableGnomeKeyring = true;
 
-  environment.systemPackages = with pkgs; [
+  environment.systemPackages = (with pkgs; [
     cachix
     socat
     htop-vim
@@ -210,7 +210,7 @@
 
     wofi
     kitty
-  ];
+  ]) ++ [stremio.packages.${system}.default];
 
   services.fprintd = {
     enable = true;
