@@ -54,48 +54,74 @@ let
         Install.WantedBy = [ "graphical-session.target" ];
       };
 
-      programs.swaylock = {
+      programs.hyprlock = {
         enable = true;
-        package = pkgs.swaylock-effects;
         settings = {
-          screenshots = true;
-          effect-blur = "7x5";
-          effect-vignette = "0.5:0.5";
-          clock = true;
-          timestr = "%H:%M";
-          datestr = "%A, %d %B";
+          general = {
+            disable_loading_bar = true;
+            hide_cursor = true;
+            grace = 2;
+            no_fade_in = false;
+          };
 
-          indicator = true;
-          indicator-radius = 120;
-          indicator-thickness = 10;
+          background = [
+            {
+              monitor = "";
+              path = "screenshot";
+              blur_passes = 3;
+              blur_size = 7;
+              noise = 0.0117;
+              contrast = 1.3;
+              brightness = 0.8;
+              vibrancy = 0.2;
+              vibrancy_darkness = 0.0;
+            }
+          ];
 
-          font = "JetBrainsMono Nerd Font";
-          font-size = 32;
+          input-field = [
+            {
+              monitor = "";
+              size = "300, 60";
+              outline_thickness = 4;
+              dots_size = 0.26;
+              dots_spacing = 0.3;
+              dots_center = true;
+              outer_color = "rgba(${hex theme.neutral}ff)";
+              inner_color = "rgba(${hex theme.background'}cc)";
+              font_color = "rgba(ffffffff)";
+              check_color = "rgba(${hex theme.secondary}ff)";
+              fail_color = "rgba(${hex theme.danger}ff)";
+              fade_on_empty = true;
+              placeholder_text = "<i>Password...</i>";
+              hide_input = false;
+              position = "0, -120";
+              halign = "center";
+              valign = "center";
+            }
+          ];
 
-          ring-color = hex theme.neutral;
-          ring-ver-color = hex theme.secondary;
-          ring-wrong-color = hex theme.danger;
-          ring-clear-color = hex theme.background';
-
-          inside-color = "484d6fcc";
-          inside-ver-color = "484d6fcc";
-          inside-wrong-color = "484d6fcc";
-          inside-clear-color = "484d6fcc";
-
-          line-color = "00000000";
-          separator-color = "00000000";
-
-          text-color = "ffffff";
-          text-ver-color = "ffffff";
-          text-wrong-color = "ffffff";
-          text-clear-color = "ffffff";
-
-          key-hl-color = hex theme.secondary;
-          bs-hl-color = hex theme.danger;
-
-          ignore-empty-password = true;
-          grace = 2;
-          fade-in = 0.2;
+          label = [
+            {
+              monitor = "";
+              text = ''cmd[update:1000] date +"%H:%M"'';
+              color = "rgba(ffffffff)";
+              font_size = 90;
+              font_family = "JetBrainsMono Nerd Font";
+              position = "0, 200";
+              halign = "center";
+              valign = "center";
+            }
+            {
+              monitor = "";
+              text = ''cmd[update:60000] date +"%A, %d %B"'';
+              color = "rgba(ffffffff)";
+              font_size = 25;
+              font_family = "JetBrainsMono Nerd Font";
+              position = "0, 120";
+              halign = "center";
+              valign = "center";
+            }
+          ];
         };
       };
 
@@ -107,8 +133,8 @@ let
       services.swayidle = {
         enable = true;
         events = {
-          before-sleep = "${config.programs.swaylock.package}/bin/swaylock -f";
-          lock = "${config.programs.swaylock.package}/bin/swaylock -f";
+          before-sleep = "${config.programs.hyprlock.package}/bin/hyprlock";
+          lock = "${config.programs.hyprlock.package}/bin/hyprlock";
         };
       };
 
@@ -360,6 +386,10 @@ in
       wrapperFeatures.gtk = true;
     };
     security.polkit.enable = true;
+
+    # programs.sway sets this for swaylock itself (wayland-session.nix), but
+    # not for hyprlock, so it has to be declared explicitly here.
+    security.pam.services.hyprlock = { };
 
     home-manager.users.${cfg.user} = homeModule;
   };
