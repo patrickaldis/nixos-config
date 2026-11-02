@@ -93,6 +93,15 @@ let
             {
               command = "${pkgs.xfconf}/bin/xfconf-query -c xfce4-power-manager -p /xfce4-power-manager/lock-screen-suspend-hibernate -t bool -s false --create";
             }
+            {
+              # Without this, xfce4-power-manager handles the lid switch
+              # itself (independently of logind's HandleLidSwitch) and tries
+              # to lock via the legacy org.freedesktop.ScreenSaver interface,
+              # which swaylock/swayidle don't implement -- producing "None of
+              # the screen lock tools ran successfully". Deferring to logind
+              # leaves locking to swayidle's before-sleep/lock hooks above.
+              command = "${pkgs.xfconf}/bin/xfconf-query -c xfce4-power-manager -p /xfce4-power-manager/logind-handle-lid-switch -t bool -s true --create";
+            }
             { command = "${pkgs.xfce4-power-manager}/bin/xfce4-power-manager --daemon"; }
             { command = "${pkgs.wluma}/bin/wluma"; }
             { command = "${pkgs.wlsunset}/bin/wlsunset -t 4000 -T 6500"; }
