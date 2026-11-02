@@ -218,5 +218,5 @@
     enable = true;
   };
 
-  programs.sway.enable = true;
+  desktop.sway.enable = true;
 })

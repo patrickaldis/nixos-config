@@ -9,6 +9,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     import-tree.url = "github:denful/import-tree";
+    audiomenu.url = "github:jalil-salame/audiomenu";
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -61,6 +62,7 @@
                   "home-manager"
                   "plasma-manager"
                   "virglrenderer"
+                  "audiomenu"
                 ]
             );
           }

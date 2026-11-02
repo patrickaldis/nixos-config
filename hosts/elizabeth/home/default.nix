@@ -32,8 +32,6 @@
         meld
         gamescope
 
-        walker
-        elephant
         joplin-desktop
         abcde
         eyed3
@@ -93,21 +91,6 @@
     ssh = {
       enable = true;
       enableDefaultConfig = false;
-    };
-  };
-
-  systemd.user.services.elephant = {
-    Unit = {
-      Description = "Elephant";
-      After = [ "graphical-session.target" ];
-    };
-    Service = {
-      Type = "simple";
-      ExecStart = "${pkgs.elephant}/bin/elephant";
-      Restart = "on-failure";
-    };
-    Install = {
-      WantedBy = [ "graphical-session.target" ];
     };
   };
 

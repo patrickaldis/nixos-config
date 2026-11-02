@@ -21,6 +21,24 @@
         "type": "github"
       }
     },
+    "audiomenu": {
+      "inputs": {
+        "nixpkgs": "nixpkgs_2"
+      },
+      "locked": {
+        "lastModified": 1755878705,
+        "narHash": "sha256-IRUUniEEslalgzLjkXIxYJmopAZFeQpB7wfDThA/Xj4=",
+        "owner": "jalil-salame",
+        "repo": "audiomenu",
+        "rev": "a7e35d0ee6843bf86c305bb7211def6db509970a",
+        "type": "github"
+      },
+      "original": {
+        "owner": "jalil-salame",
+        "repo": "audiomenu",
+        "type": "github"
+      }
+    },
     "blink-lib": {
       "inputs": {
         "nixpkgs": [
@@ -46,7 +64,7 @@
     "blink-pairs": {
       "inputs": {
         "blink-lib": "blink-lib",
-        "nixpkgs": "nixpkgs_3"
+        "nixpkgs": "nixpkgs_4"
       },
       "locked": {
         "lastModified": 1783888837,
@@ -271,7 +289,7 @@
       "inputs": {
         "flake-parts": "flake-parts",
         "neovim-src": "neovim-src",
-        "nixpkgs": "nixpkgs_4"
+        "nixpkgs": "nixpkgs_5"
       },
       "locked": {
         "lastModified": 1786665931,
@@ -321,6 +339,21 @@
     },
     "nixpkgs_2": {
       "locked": {
+        "lastModified": 1714635257,
+        "narHash": "sha256-4cPymbty65RvF1DWQfc+Bc8B233A1BWxJnNULJKQ1EY=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "63c3a29ca82437c87573e4c6919b09a24ea61b0f",
+        "type": "github"
+      },
+      "original": {
+        "id": "nixpkgs",
+        "ref": "nixos-unstable",
+        "type": "indirect"
+      }
+    },
+    "nixpkgs_3": {
+      "locked": {
         "lastModified": 1785090369,
         "narHash": "sha256-m0pDuRJG7EDo9ri+4Ksu83VsI+PlxNC9lNBfydejce4=",
         "owner": "NixOS",
@@ -335,7 +368,7 @@
         "type": "github"
       }
     },
-    "nixpkgs_3": {
+    "nixpkgs_4": {
       "locked": {
         "lastModified": 1780749050,
         "narHash": "sha256-G5B1h4sOH4DN/RZ85xYi6zPm2MHdOrNMeUmMslZ28Qs=",
@@ -348,7 +381,7 @@
         "url": "https://channels.nixos.org/nixos-unstable/nixexprs.tar.xz"
       }
     },
-    "nixpkgs_4": {
+    "nixpkgs_5": {
       "locked": {
         "lastModified": 1786534138,
         "narHash": "sha256-fBJMdnKUTUDtfi/BYLr71HLaC9dG382arxLF2Egg2uo=",
@@ -364,7 +397,7 @@
         "type": "github"
       }
     },
-    "nixpkgs_5": {
+    "nixpkgs_6": {
       "locked": {
         "lastModified": 1786535285,
         "narHash": "sha256-rG5HKMAgAhMgydvKGtco6rqTxRq4EDZQCx9USLvVqYw=",
@@ -380,7 +413,7 @@
         "type": "github"
       }
     },
-    "nixpkgs_6": {
+    "nixpkgs_7": {
       "locked": {
         "lastModified": 1792094642,
         "narHash": "sha256-zp8ToDMnqZcu4o4IH9pdwXFXGp7yLm/M0dEnNWnyd7I=",
@@ -404,7 +437,7 @@
         "log-highlight-nvim": "log-highlight-nvim",
         "multiple-cursors-nvim": "multiple-cursors-nvim",
         "neovim-nightly": "neovim-nightly",
-        "nixpkgs": "nixpkgs_5",
+        "nixpkgs": "nixpkgs_6",
         "opencode-nvim": "opencode-nvim",
         "readline-nvim": "readline-nvim",
         "render-markdown-nvim": "render-markdown-nvim",
@@ -513,10 +546,11 @@
     "root": {
       "inputs": {
         "agenix": "agenix",
+        "audiomenu": "audiomenu",
         "disko": "disko",
         "home-manager": "home-manager_2",
         "import-tree": "import-tree",
-        "nixpkgs": "nixpkgs_2",
+        "nixpkgs": "nixpkgs_3",
         "nvim": "nvim",
         "plasma-manager": "plasma-manager",
         "stremio": "stremio",
@@ -525,7 +559,7 @@
     },
     "stremio": {
       "inputs": {
-        "nixpkgs": "nixpkgs_6",
+        "nixpkgs": "nixpkgs_7",
         "rivulet-engine-src": "rivulet-engine-src",
         "stremio-web-src": "stremio-web-src"
       },
