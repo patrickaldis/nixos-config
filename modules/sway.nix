@@ -52,6 +52,19 @@ let
 
       programs.swaylock.enable = true;
 
+      # Locks on suspend/lid-close via logind's sleep signal. Needed because
+      # xfce4-power-manager's own "lock on suspend" only knows how to drive
+      # X11 screensavers (xflock4) and fails with "none of the screen lock
+      # tools ran successfully" on a Wayland/sway session; that feature is
+      # disabled below in favour of this.
+      services.swayidle = {
+        enable = true;
+        events = {
+          before-sleep = "${pkgs.swaylock}/bin/swaylock -f";
+          lock = "${pkgs.swaylock}/bin/swaylock -f";
+        };
+      };
+
       wayland.windowManager.sway = {
         enable = true;
         # sway itself comes from the NixOS programs.sway module below.
@@ -77,6 +90,9 @@ let
 
           startup = [
             { command = "swaync"; }
+            {
+              command = "${pkgs.xfconf}/bin/xfconf-query -c xfce4-power-manager -p /xfce4-power-manager/lock-screen-suspend-hibernate -t bool -s false --create";
+            }
             { command = "${pkgs.xfce4-power-manager}/bin/xfce4-power-manager --daemon"; }
             { command = "${pkgs.wluma}/bin/wluma"; }
             { command = "${pkgs.wlsunset}/bin/wlsunset -t 4000 -T 6500"; }
