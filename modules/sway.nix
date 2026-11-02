@@ -28,6 +28,13 @@ let
         pkgs.elephant
       ];
 
+      # Partial config: walker merges this over its built-in defaults.
+      # Without force_keyboard_focus walker requests OnDemand keyboard
+      # interactivity, and sway doesn't give it focus when it opens.
+      xdg.configFile."walker/config.toml".text = ''
+        force_keyboard_focus = true
+      '';
+
       # walker (v2) is only a frontend: elephant provides the results.
       systemd.user.services.elephant = {
         Unit = {
