@@ -57,12 +57,9 @@ let
       programs.hyprlock = {
         enable = true;
         settings = {
-          general = {
-            disable_loading_bar = true;
-            hide_cursor = true;
-            grace = 2;
-            no_fade_in = false;
-          };
+          # hyprlock 0.9.6's general block only has hide_cursor -- grace and
+          # fade-in are CLI flags (-g/--no-fade-in) passed below instead.
+          general.hide_cursor = true;
 
           background = [
             {
@@ -133,8 +130,13 @@ let
       services.swayidle = {
         enable = true;
         events = {
-          before-sleep = "${config.programs.hyprlock.package}/bin/hyprlock";
-          lock = "${config.programs.hyprlock.package}/bin/hyprlock";
+          # --no-fade-in: before-sleep fires right as the system suspends, and
+          # hyprlock's default fade-in animation can lose the race against
+          # suspend actually happening, leaving widgets (the clock included)
+          # stuck mid-render. -g 2: equivalent to the old (invalid) general
+          # { grace = 2; }.
+          before-sleep = "${config.programs.hyprlock.package}/bin/hyprlock --no-fade-in -g 2";
+          lock = "${config.programs.hyprlock.package}/bin/hyprlock --no-fade-in -g 2";
         };
       };
 
