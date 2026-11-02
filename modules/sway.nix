@@ -15,7 +15,11 @@ let
     neutral = "#8f97e8";
     background'' = "#606697";
     background' = "#484d6f";
+    danger = "#e06c75";
   };
+
+  # swaylock wants bare hex (no leading '#').
+  hex = lib.removePrefix "#";
 
   grimshot = "${pkgs.sway-contrib.grimshot}/bin/grimshot";
   screenshotPath = "$HOME/Pictures/Screenshots/$(date -d 'today' +'%Y%m%d%H%M').png";
@@ -50,7 +54,50 @@ let
         Install.WantedBy = [ "graphical-session.target" ];
       };
 
-      programs.swaylock.enable = true;
+      programs.swaylock = {
+        enable = true;
+        package = pkgs.swaylock-effects;
+        settings = {
+          screenshots = true;
+          effect-blur = "7x5";
+          effect-vignette = "0.5:0.5";
+          clock = true;
+          timestr = "%H:%M";
+          datestr = "%A, %d %B";
+
+          indicator = true;
+          indicator-radius = 120;
+          indicator-thickness = 10;
+
+          font = "JetBrainsMono Nerd Font";
+          font-size = 32;
+
+          ring-color = hex theme.neutral;
+          ring-ver-color = hex theme.secondary;
+          ring-wrong-color = hex theme.danger;
+          ring-clear-color = hex theme.background';
+
+          inside-color = "484d6fcc";
+          inside-ver-color = "484d6fcc";
+          inside-wrong-color = "484d6fcc";
+          inside-clear-color = "484d6fcc";
+
+          line-color = "00000000";
+          separator-color = "00000000";
+
+          text-color = "ffffff";
+          text-ver-color = "ffffff";
+          text-wrong-color = "ffffff";
+          text-clear-color = "ffffff";
+
+          key-hl-color = hex theme.secondary;
+          bs-hl-color = hex theme.danger;
+
+          ignore-empty-password = true;
+          grace = 2;
+          fade-in = 0.2;
+        };
+      };
 
       # Locks on suspend/lid-close via logind's sleep signal. Needed because
       # xfce4-power-manager's own "lock on suspend" only knows how to drive
