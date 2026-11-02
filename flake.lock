@@ -564,11 +564,11 @@
         "stremio-web-src": "stremio-web-src"
       },
       "locked": {
-        "lastModified": 1793565539,
-        "narHash": "sha256-QyVI5f7bteRAoyEf/C1L/VP0A1VruMPzszUc0SlRKzU=",
+        "lastModified": 1793657450,
+        "narHash": "sha256-SK1YiG5aAw3JjbRzlBIzfKWN+cJ0j1HfKFltN8t2gjg=",
         "ref": "refs/heads/master",
-        "rev": "41862b9df34208a6fa43d58029f8a2a9fe22a0c1",
-        "revCount": 1,
+        "rev": "af7e80dd4a47f76fec497b88f89468ae9187d521",
+        "revCount": 2,
         "type": "git",
         "url": "ssh://git@github.com/patrickaldis/stremio.git"
       },
