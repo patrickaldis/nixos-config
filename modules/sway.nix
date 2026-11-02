@@ -107,8 +107,8 @@ let
       services.swayidle = {
         enable = true;
         events = {
-          before-sleep = "${pkgs.swaylock}/bin/swaylock -f";
-          lock = "${pkgs.swaylock}/bin/swaylock -f";
+          before-sleep = "${config.programs.swaylock.package}/bin/swaylock -f";
+          lock = "${config.programs.swaylock.package}/bin/swaylock -f";
         };
       };
 
