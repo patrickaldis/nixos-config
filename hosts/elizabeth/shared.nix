@@ -12,7 +12,10 @@
 
   services.fwupd.enable = true;
 
-  programs.stremio-vpn.enable = true;
+  programs.stremio-vpn = {
+    enable = true;
+    user = "patrick";
+  };
 
   services.avahi = {
     enable = true;

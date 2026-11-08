@@ -1,4 +1,4 @@
-{ config, lib, pkgs, stremio, system, ... }:
+{ config, lib, pkgs, secrets, stremio, system, ... }:
 let
   cfg = config.programs.stremio-vpn;
   stremioPkg = stremio.packages.${system}.default;
@@ -35,16 +35,30 @@ in
 {
   options.programs.stremio-vpn = {
     enable = lib.mkEnableOption "running Stremio through a NordVPN WireGuard tunnel via vopono";
+
+    user = lib.mkOption {
+      type = lib.types.str;
+      example = "patrick";
+      description = ''
+        User that launches Stremio. The wg secret is chowned to them so the
+        unprivileged wrapper can render the conf, and they get the vopono
+        sudo rule. Must be an actual user on the host.
+      '';
+    };
   };
 
   config = lib.mkIf cfg.enable {
-    # Readable by patrick so the unprivileged wrapper can render the wg conf;
+    # mkDefault so a host that already declares this secret for its own
+    # NordVPN setup (e.g. elizabeth's nordvpn.nix) keeps its definition.
+    age.secrets.nordvpn-wg.file = lib.mkDefault (secrets + "/network/nordvpn-wg.age");
+
+    # Readable by cfg.user so the unprivileged wrapper can render the wg conf;
     # vopono itself escalates to root via sudo when it needs to set up the netns.
-    age.secrets.nordvpn-wg.owner = "patrick";
+    age.secrets.nordvpn-wg.owner = cfg.user;
 
     security.sudo.extraRules = [
       {
-        users = [ "patrick" ];
+        users = [ cfg.user ];
         commands = [
           {
             command = "${pkgs.vopono}/bin/vopono";

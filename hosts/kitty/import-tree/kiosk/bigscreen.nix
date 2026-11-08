@@ -70,7 +70,11 @@ in
     ];
   };
   services.desktopManager.plasma6.enable = true;
-  programs.stremio-vpn.enable = true;
+  programs.stremio-vpn = {
+    enable = true;
+    # The kiosk autologs in as tv-session, so that's who runs Stremio.
+    user = "tv-session";
+  };
 
   # tv-session user
   users.users.tv-session = {
