@@ -4,6 +4,11 @@
     agenix.url = "github:ryantm/agenix";
     nvim.url = "github:patrickaldis/nvim-config";
     stremio.url = "git+ssh://git@github.com/patrickaldis/stremio.git";
+    # haskell.nix-based, so building it needs allow-import-from-derivation and
+    # wants the cache.iog.io / georgefst.cachix.org substituters in
+    # modules/nix-config.nix. Deliberately not following our nixpkgs: the
+    # haskell.nix package set is pinned against the one in its own lock.
+    monpad.url = "github:georgefst/monpad/nix-2025";
     disko = {
       url = "github:nix-community/disko";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -58,6 +63,7 @@
                   "agenix"
                   "nvim"
 		  "stremio"
+                  "monpad"
                   "import-tree"
                   "home-manager"
                   "plasma-manager"
@@ -110,6 +116,11 @@
       pkgs = import inputs.nixpkgs { inherit system; };
     in
     {
+      checks.${system}.monpad = import ./modules/monpad/_test.nix {
+        inherit system;
+        inherit (inputs) nixpkgs monpad;
+      };
+
       devShells.x86_64-linux.default = pkgs.mkShell {
         buildInputs = [
           inputs.agenix.packages.${system}.agenix
