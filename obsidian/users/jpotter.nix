@@ -1,0 +1,7 @@
+{
+  shell = "/var/run/current-system/sw/bin/bash";
+  openssh.authorizedKeys.keys = [
+    "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDozQle7s08ADbInGZ05zawXRG0yiWCCbtS8qvtGHi4TeUjU4Or/VSE/n8KKlAIw7xixb4dWI6yX/30xltdems+g+XjCqPvbaCfJ9em69g2NOsvoWeabJw7uezwXVr8RAqZiYb8P4YfKX4psxL9FMR8ofNmhENdse7CWcaNTu+8KN/dYq2ZH9PiP+NF0ms5qbJS77fO3MfbqHgR1ULy5XNqmaUVJ4XjfeGm7Quwu/jyDoDkt7irPM6Lb5RrkyhHkkzZrFNYYIKaU9HW4F0cNZBi8jm62qbUl5NCbCmWVYRGXm0vBlqaMs7AfOIjg71QnaRqpWLmSN9UYJaoB56nYFQIrucIewkQ8giZpoucpLE1OLSQzluPtbxDcmNhuauGaKJsFuf3o/DrsYDS/rMB5EcuWSIzpS+dt+SlNGOOn1za5ouFSN4xFku9ZOZ8/2mPFt+qoiIl1qns+rRS+4cQeuGAHPLPVju1HAeaz0PBXK2bF1+ZrBjy90FF7NWJOI+BTIM= joshua.potter@obsidian.systems"
+  ];
+  hashedPassword = "$6$QjzWAByMM6j0A49u$tfG5jJ5CriSfS4/m0iLYC6gAr5yJDO7YDapDp8zpM3KZO4GphbIGTstiQLqDygBh4Z29AB8XTnlsQeo5w3GN5.";
+}

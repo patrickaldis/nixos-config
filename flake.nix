@@ -78,6 +78,7 @@
         "kitty"
         "elizabeth"
         "lydia"
+        "mary"
       ];
 
       mkSystem =

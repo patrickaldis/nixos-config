@@ -1,0 +1,7 @@
+{
+  shell = "/var/run/current-system/sw/bin/fish";
+  openssh.authorizedKeys.keys = [
+    "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQD9zKRCuqo/kNRysc9oHlKxYjJMYXTuYn47aZKSmjsgAVN/TVFHu6YESFS08nN3C4EGdJz6lAarGf6BW2d7koJpdFlnS6u7ki0+hMrOz3Iy62OZLMYLKugSQckDl3zjzeazJC3nPbrcnxO0SOTHs3r9TzB9lmoHsUsfIFAsikXFPkk7qAS42DZod1OtYLbanCkdgIjZBpm2vcYmXc/QScxu9biFoJUgy391220hsYxJW/0EoybmlPNI9EngnaAlX6fkfk2eQvt+OtGqShqDgGjGB9TyWQ0qerQEgfWDX1YaoIs6/+yLycP2eIL4PqHm2SAd3dsn+mvBiW3XRVdvJ2IKfTzrpvZ+KfpiLlySZwmgWcK7Kl7EDjoHOgrJlmwvhMbgDTO0hmcSA4vO8vvHmf9QIx3yDumOQlXif5aqKFzhU7F/BaPR8h3pYBJ0ITx/R6mrz57KVCDiQlpTvpj7TrCi1W/7UAfPQPe6/6JnP7/Wotvg52IP7QqAjyUOXQzBG9WJRKDHI2Q2vV9YIyhmgk8p/lslsc/kHUJbIULvEQvEMB6l7z1fTSLorGbvGz55yWTqe5bl3yp+cmeVff6EEBKPzdcq18Ndk9K5mryrQeg918aYJQCvN7/vnf7jGTmPr7sm3viKdd9R2OqH8eaivD33xgr3FK9+n0UfAPbzPPehKQ== luigy.leon@obsidian.systems"
+  ];
+  hashedPassword = "$6$6ny53pPJDF8GXGsu$a8oGlHVCyg4rbI.J.E9EuWU1VH0AkKAIId4ukwNmWH/WLpLYzsD98fFXaomHC/KjBDH/YtXdX7lutzz04AOrp/";
+}

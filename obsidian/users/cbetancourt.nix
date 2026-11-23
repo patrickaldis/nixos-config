@@ -1,0 +1,5 @@
+{
+  openssh.authorizedKeys.keys = [
+    "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC/mygTb0hMDXoXt/cWjA9WRlEkAKwu8fBX1cm5L/VI/BkQrJxRPq62NYlmSgW4vpDUVoOpk4Pv7wAjwLDbhDkgNpAQvNpGESE1mj/Z2slGJGRQkG0YcVHK6OpMhewl5KV55+Zln/M7FIalksI/ZAIxlpY7+DLHV/GAs2vboePrCYF5rTIR4+XThWTQKX9MslzwP2faOLPW5bFovGO5L8AhWgDZPOpEFNui479L+sKeBcxCMViHkrHpjjJQ0N3FoxkRKJUD9eaOCjhVJmanJmrGwZOEn8VEMvLpY/EGGWqR+hUNQ5kYkNmkOD1c83E2xIw1wWJScsc2sWSxVVs9HDW3 chelseabetancourt@MacBook-Air.office"
+  ];
+}

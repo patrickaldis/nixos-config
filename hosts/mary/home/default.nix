@@ -26,14 +26,12 @@
         ripgrep
         nurl
         wl-clipboard
-        xfce.xfce4-power-manager
+        xfce4-power-manager
         teamtype
         dex
         meld
         gamescope
 
-        walker
-        elephant
         joplin-desktop
         abcde
         eyed3
@@ -92,21 +90,7 @@
     };
     ssh = {
       enable = true;
-    };
-  };
-
-  systemd.user.services.elephant = {
-    Unit = {
-      Description = "Elephant";
-      After = [ "graphical-session.target" ];
-    };
-    Service = {
-      Type = "simple";
-      ExecStart = "${pkgs.elephant}/bin/elephant";
-      Restart = "on-failure";
-    };
-    Install = {
-      WantedBy = [ "graphical-session.target" ];
+      enableDefaultConfig = false;
     };
   };
 

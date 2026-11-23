@@ -1,0 +1,5 @@
+{
+  openssh.authorizedKeys.keys = [
+    "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDmDNhbRwE+SNzaHJvAHy8w6Kp/OjQ+GRbSuq5ZplfRVYtZ2fEWpC7tvYCnHN5dpqlT+tX+ZbcrvsTgkQbXQawVWeQuwxjgUbkZkBhUNCz+7vsSZXy1m+GVx8ytKjXFuF8L2TDm4smmYsNj1My25Mq6/2gDKYq9FuH4SaeJuCRSBQspt2+jnBn4fTrIDi9NnBlS6flJJnW7G95K6svqSGqRNJ40SHgcliWCzWJlCSr7rfgZJIImUuisWvY+khWXxr9pS2PzRX1fOYMnoWooXtpnpAjy7oE/QvV4asFSSL05fM4FfKqXmoqbUje/UnUxrqHENyv1aRHAA4uA9VH2KHbCN4kcMcjuFD1jfTO+nbtPlhrYMVCh5b59RgqlmnKiOB4HIeOwzyCwL2pV0CVEVSWevkNRejyoa/v0QGlKKWGHNVWSHgsx+jc2+sGJ5bP4W6kwKGp/GIMSSCuylMLR0oJhYqQUpnD1wSs4/ReMt8V48IVssJuojo+fdlMZdmS4Zlk= lazylambda@nixos"    
+  ];
+}

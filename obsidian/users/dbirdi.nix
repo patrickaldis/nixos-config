@@ -1,0 +1,4 @@
+{
+  openssh.authorizedKeys.keys = ["ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQC6phLeTSjCoBTdipAELOBMVg5Nz70+cLn7O9EOSwolMJOdL+gLYDhhlGBedXL/1JcANOtdRXZ7khA+aoLWVPEO/zFqmwHwKvHSHtMSWaUyZOmCFBwYwKeze6vu1+5i+axRrs2OTprLLmIMiN6VpBNs1TigWXsjYYJbkLmPWc3WgBpauIrQKYWnrfckj6cAC67/wbDs/BR0LYmGGI3MV0QIMLuOQ69Qz+wgcn8TwiVk8LnRQJalSAXDlQmvlhqyAjS2RnOclK+Eu3Y0tzd95/uGu6+R5dDIUYKaZJqYF+ODRStDM1zKPeqbCyaJn7L/0j0H2+m8SkBPtVgsN3lpNhPBh41RIx3uR3Ds3tNOY9IgY5QKUksvt56fGdXhoOYo/j0gPMv8tNfCQw/jGgmcpZUcoIyzVh5ixkuqBzk17fJPcqUDsnOyQLbTXjEYAroJ1T4Ke0/kM5htYyWHGOGMnBV9hOEB559PQ4CEQX1tl9HTvQcyiwmQFbp6/tN2dYRrnK0= deepak.birdi@obsidian.systems"];
+  hashedPassword = "$6$I.Y0rvR4krogopXa$c8SeIJnq1l6g6H0JN.JAe2MfqcGqmDeXvn4VBrO/x5yBdRD.myiR1ifNM3RgS8sKKrP6cQs6ZL.XGma5R2KoE.";
+}

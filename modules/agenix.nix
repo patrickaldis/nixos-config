@@ -26,33 +26,42 @@ in
     };
   };
 
-  config = {
-    system.activationScripts.installSshKey = {
-      text = /* sh */ ''
-        if [ -d ${pl} ]; then
-          ${config.age.init pl}
-        fi
-      '';
-      deps = [ ];
-    };
-    system.activationScripts.agenixNewGeneration.deps = lib.mkAfter [ "installSshKey" ];
+  config = lib.mkMerge [
+    # agenix only declares agenixNewGeneration when the host actually has
+    # secrets, so ordering against it has to be conditional too -- otherwise a
+    # host with no age.secrets ends up with a deps-only script and no text. The
+    # mkIf has to sit above the attribute name, since inside it the key would
+    # still be created.
+    (lib.mkIf (config.age.secrets != { }) {
+      system.activationScripts.agenixNewGeneration.deps = lib.mkAfter [ "installSshKey" ];
+    })
+    {
+      system.activationScripts.installSshKey = {
+        text = /* sh */ ''
+          if [ -d ${pl} ]; then
+            ${config.age.init pl}
+          fi
+        '';
+        deps = [ ];
+      };
 
-    system.activationScripts.installUserSshKey = {
-      text = /* sh */ ''
-        if [ -d ${pl} ]; then
-          :
-          ${config.age.initUser pl}
-        fi
-      '';
-      deps = [
-        "installSshKey"
-        "users"
-      ];
-    };
+      system.activationScripts.installUserSshKey = {
+        text = /* sh */ ''
+          if [ -d ${pl} ]; then
+            :
+            ${config.age.initUser pl}
+          fi
+        '';
+        deps = [
+          "installSshKey"
+          "users"
+        ];
+      };
 
-    system.activationScripts.removePayload = {
-      text = /* sh */ "rm -rf ${pl}";
-      deps = [ "installUserSshKey" ];
-    };
-  };
+      system.activationScripts.removePayload = {
+        text = /* sh */ "rm -rf ${pl}";
+        deps = [ "installUserSshKey" ];
+      };
+    }
+  ];
 }
