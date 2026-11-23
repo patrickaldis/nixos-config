@@ -3,6 +3,7 @@
     ./shared.nix
     ./hardware-configuration.nix
     ./disko.nix
+    ./gpg.nix
 
     # Work config: the vendored //obsidian tree, as hosts/obsidian-laptop
     # imported it in the old config.
@@ -27,6 +28,25 @@
         interval = "monthly";
       };
     }
+    # Local dev database, as on obsidian-laptop.
+    ({ lib, pkgs, ... }: {
+      services.postgresql = {
+        enable = true;
+        ensureDatabases = [ "playground" ];
+        enableTCPIP = true;
+        authentication = lib.mkOverride 10 ''
+          #type database DBuser origin-address auth-method
+          local all      all     trust
+          host  all      all     127.0.0.1/32   trust
+          host  all      all     ::1/128        trust
+        '';
+        initialScript = pkgs.writeText "backend-initScript" ''
+          CREATE ROLE user WITH LOGIN PASSWORD 'password' CREATEDB;
+          CREATE DATABASE testdb;
+          GRANT ALL PRIVILEGES ON DATABASE testdb TO user;
+        '';
+      };
+    })
     {
       age.init = pl: /* sh */ ''
         install -D -m 600 ${pl}/mary /etc/ssh/ssh_host_ed25519_key

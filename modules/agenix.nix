@@ -9,7 +9,7 @@ in
 
   options.age = {
     init = lib.mkOption {
-      type = lib.types.functionTo lib.types.str;
+      type = lib.types.functionTo lib.types.lines;
       description = ''
         Initialisation script to set up keys, given the payload directory.
         Runs before agenix decrypts secrets, since age.identityPaths points at
@@ -17,7 +17,7 @@ in
       '';
     };
     initUser = lib.mkOption {
-      type = lib.types.functionTo lib.types.str;
+      type = lib.types.functionTo lib.types.lines;
       default = _: "";
       description = ''
         As age.init, but runs after the users activation script, so user

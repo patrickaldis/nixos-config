@@ -14,6 +14,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     import-tree.url = "github:denful/import-tree";
+    nixos-hardware.url = "github:NixOS/nixos-hardware/master";
     audiomenu.url = "github:jalil-salame/audiomenu";
     home-manager = {
       url = "github:nix-community/home-manager";
@@ -69,6 +70,7 @@
                   "plasma-manager"
                   "virglrenderer"
                   "audiomenu"
+                  "nixos-hardware"
                 ]
             );
           }

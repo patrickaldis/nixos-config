@@ -1,11 +1,12 @@
-{ disko, ... }: {
+{ disko, ... }:
+{
   imports = [ disko.nixosModules.disko ];
 
   disko.devices = {
     disk = {
       main = {
         type = "disk";
-        device = "/dev/nvme0n1";
+        device = "/dev/disk/by-id/nvme-WD_BLACK_SN850X_2000GB_25132L801158";
         content = {
           type = "gpt";
           partitions = {
@@ -16,6 +17,10 @@
                 type = "filesystem";
                 format = "vfat";
                 mountpoint = "/boot";
+                mountOptions = [
+                  "fmask=0022"
+                  "dmask=0022"
+                ];
               };
             };
             luks = {
@@ -23,10 +28,9 @@
               content = {
                 type = "luks";
                 name = "root";
-                settings = {
-                  allowDiscards = true;
-                };
-                passwordFile = "/tmp/disk-password"; # or use interactive prompt
+                # No passwordFile/keyFile: disko prompts for the passphrase
+                # interactively during `disko --mode disko`.
+                settings.allowDiscards = true;
                 content = {
                   type = "zfs";
                   pool = "mainpool";
@@ -40,6 +44,10 @@
     zpool = {
       mainpool = {
         type = "zpool";
+        options = {
+          ashift = "12";
+          autotrim = "on";
+        };
         rootFsOptions = {
           compression = "zstd";
           atime = "off";

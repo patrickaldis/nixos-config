@@ -79,7 +79,7 @@
       settings = {
         user = {
           name = "Patrick Aldis";
-          email = "patricktaldis@gmail.com";
+          email = "patrick.aldis@obsidian.systems";
         };
       };
       ignores = [
