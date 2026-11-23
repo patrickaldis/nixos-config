@@ -69,6 +69,16 @@ in
       bigscreen
     ];
   };
+
+  # sessionPackages only contributes the session's .desktop file, so this is
+  # not redundant: plasma-bigscreen-wayland is a /bin/sh script whose line 9 is
+  # `. plasma-bigscreen-common-env`. That is a bare filename, so `.` resolves
+  # it through $PATH, and the file lives in this package's own bin/. Without
+  # the package on the system path the source fails, the session exits in under
+  # a second, and GDM silently falls back to its greeter -- which looks exactly
+  # like autologin having stopped working.
+  environment.systemPackages = [ bigscreen ];
+
   services.desktopManager.plasma6.enable = true;
   programs.stremio-vpn = {
     enable = true;
