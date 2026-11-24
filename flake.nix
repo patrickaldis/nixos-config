@@ -172,11 +172,24 @@
               # captured before escalating (root's ~ isn't ours), and keying
               # off the argument means this can never loop.
               if [ "$#" -eq 0 ]; then
+                # Under `sudo nix run` $HOME is already /root by the time we
+                # get here, and root has no age identity on the installer, so
+                # take the home of whoever invoked sudo when it tells us.
+                if [ -n "''${SUDO_USER:-}" ]; then
+                  HOME=$(getent passwd "$SUDO_USER" | cut -d: -f6)
+                fi
                 exec sudo "$0" "$HOME/.ssh/id_ed25519"
               fi
               IDENTITY="$1"
               if [ "$(id -u)" -ne 0 ]; then
                 echo "$0: sudo did not give us root" >&2
+                exit 1
+              fi
+              # A missing identity only shows up as an age error several steps
+              # in, after the disks have already been repartitioned.
+              if [ ! -r "$IDENTITY" ]; then
+                echo "$0: no age identity at $IDENTITY" >&2
+                echo "  pass one as the only argument, as root" >&2
                 exit 1
               fi
 
