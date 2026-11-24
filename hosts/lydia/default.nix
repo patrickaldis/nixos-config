@@ -122,6 +122,23 @@
           install -m 644 -o patrick -g users ${pl}/patrick_lydia.pub /home/patrick/.ssh/id_ed25519.pub
         '';
 
+        # mary's disko layout is ZFS-on-LUKS, and this ISO is the thing that
+        # runs disko (see #install in flake.nix). Without zfs here pool creation dies
+        # with "The ZFS modules cannot be auto-loaded": zpool comes from the
+        # disko closure, but the matching kernel module only lands in the ISO
+        # if the filesystem is declared supported. The upstream installation
+        # media get this from profiles/installation-device.nix, which we don't
+        # import (we build on iso-image.nix alone).
+        boot.supportedFilesystems.zfs = true;
+        # Required by the zfs module. Only used for pool ownership while the
+        # installer holds the pool; the target host has its own hostId, so
+        # #install exports the pool before rebooting (forceImportRoot is off
+        # from stateVersion 26.11 on, and would otherwise refuse the import).
+        networking.hostId = "1d1a0000";
+        # Nothing on this ISO boots from a pool, so take the 26.11 default
+        # rather than the stateVersion-26.05 one (silences the eval warning).
+        boot.zfs.forceImportRoot = false;
+
         # Make bootable
         hardware.enableAllHardware = true;
         isoImage = {

@@ -53,7 +53,6 @@
         wdisplays
         signal-desktop
         mailspring
-        steam
         obs-studio
         libreoffice-fresh
         gnome-calendar

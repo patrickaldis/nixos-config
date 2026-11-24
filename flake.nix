@@ -180,13 +180,20 @@
                 exit 1
               fi
 
-              disko --mode disko --flake ${self}#${name}
+              disko --mode destroy,format,mount --flake ${self}#${name}
 
               PAYLOAD=/mnt/payload
               install -d -m 700 "$PAYLOAD"
               ${mkPayload name}
 
               nixos-install --flake ${self}#${name} --no-root-passwd
+
+              # Hand the disks back cleanly. This matters for the ZFS hosts:
+              # the pool is created here under the installer's hostid, and
+              # boot.zfs.forceImportRoot is false from stateVersion 26.11 on,
+              # so an un-exported pool makes the first boot fail to import.
+              # A clean export clears the "in use by another system" guard.
+              disko --mode unmount --flake ${self}#${name}
             '';
           }
         );
