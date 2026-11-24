@@ -48,6 +48,7 @@
               [
                 "BTWholeHome-QXR"
                 "Patricks iPhone"
+                "Hyperoptic Fibre 87F3"
               ]
           );
         };
