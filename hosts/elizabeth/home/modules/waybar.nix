@@ -14,6 +14,7 @@
         "tray"
         "custom/pulls"
         "network"
+        "custom/mic"
         "pulseaudio"
         "battery"
         "custom/power"
@@ -97,6 +98,17 @@
         on-click = "sh ~/.config/waybar/swap-sink";
         on-click-middle = "blueberry";
       };
+      # Microphone state for the gear key's mute latch and Alt+Space holds.
+      # micctl signals waybar on every change, so this re-reads on demand
+      # instead of polling -- keep `signal` in step with waybarMicSignal in
+      # modules/sway.nix.
+      "custom/mic" = {
+        exec = "micctl status";
+        return-type = "json";
+        interval = "once";
+        signal = 8;
+        on-click = "micctl toggle";
+      };
       "custom/power" = {
         exec = "swaync-client -c";
         on-click = "swaync-client -t";
@@ -176,6 +188,7 @@
         #tray,
         #mode,
         #custom-power,
+        #custom-mic,
         #custom-menu,
         #custom-waybar-mpris {
             padding: 0 10px;
@@ -205,6 +218,19 @@
         }
         #pulseaudio.muted {
             color: #FA768B;
+        }
+        #custom-mic.muted {
+            color: #6f7378;
+        }
+        #custom-mic.talking {
+            color: #FA768B;
+        }
+        /* Latched open with F12, as opposed to held open with Alt+Space. */
+        #custom-mic.live {
+            color: #282A2E;
+            background: #FA768B;
+            border-radius: 5px;
+            margin: 3px 0px;
         }
         #battery.charging {
             color: #FA768B;

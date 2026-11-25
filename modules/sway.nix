@@ -24,12 +24,139 @@ let
   grimshot = "${pkgs.sway-contrib.grimshot}/bin/grimshot";
   screenshotPath = "$HOME/Pictures/Screenshots/$(date -d 'today' +'%Y%m%d%H%M').png";
 
+  # Microphone state. The gear key latches the mic open; Alt+Space is
+  # push-to-talk while muted, and mutes outright (clearing the latch) while
+  # live, so the loud key always wins. The latch file is what tells a release
+  # whether it's ending a hold or has already been overridden.
+  #
+  # `status` reports what wireplumber actually says rather than what the latch
+  # claims, so the waybar indicator stays honest if something else (e.g.
+  # XF86AudioMicMute) changes the source behind our back.
+  waybarMicSignal = 8;
+  micctl = pkgs.writeShellApplication {
+    name = "micctl";
+    runtimeInputs = [
+      pkgs.wireplumber
+      pkgs.procps
+      pkgs.swayosd
+      pkgs.pipewire # pw-dump
+      pkgs.jq
+    ];
+    text = ''
+      latch="''${XDG_RUNTIME_DIR:-/tmp}/micctl.latch"
+      src='@DEFAULT_AUDIO_SOURCE@'
+
+      # interval: "once" + signal in waybar, so the indicator only re-reads
+      # when we tell it to.
+      refresh() { pkill -RTMIN+${toString waybarMicSignal} '^.waybar-wrapped$' || true; }
+
+      # --custom-message is display-only: unlike `--input-volume mute-toggle`
+      # it doesn't touch the source, so wpctl and the latch above stay the
+      # only things that decide state and the OSD can't disagree with waybar.
+      # Both icons are Freedesktop names, present in Adwaita.
+      osd() {
+        swayosd-client --custom-message "$1" --custom-icon "$2" >/dev/null 2>&1 || true
+      }
+
+      # Muting only @DEFAULT_AUDIO_SOURCE@ isn't enough to call the mic shut:
+      # the default moves. A bluetooth headset is the default while connected,
+      # so a laptop that slept with one paired wakes with the *built-in* mic as
+      # default -- and that node was never muted, i.e. actually live. Mute the
+      # default first so the mic a hold just closed closes promptly, then sweep
+      # the rest.
+      # The sweep is best-effort: pipefail would otherwise let a pw-dump that
+      # can't reach pipewire abort the caller before it gets to refresh, and
+      # the mute that actually matters has already happened by then.
+      mute_all() {
+        wpctl set-mute "$src" 1
+        {
+          pw-dump | jq -r '
+            .[] | select(.type == "PipeWire:Interface:Node")
+                | select(.info.props."media.class" == "Audio/Source") | .id
+          ' | while read -r id; do wpctl set-mute "$id" 1 || true; done
+        } || true
+      }
+
+      # Put the mic back to whatever the latch says the baseline is.
+      apply() {
+        if [ -e "$latch" ]; then wpctl set-mute "$src" 0; else mute_all; fi
+      }
+
+      case "''${1:-status}" in
+        # When the mic is live, Alt+Space mutes for good -- it clears the latch
+        # rather than inverting it for the hold, so the release below has
+        # nothing to undo. When it's muted, the same key is push-to-talk.
+        press)
+          if [ -e "$latch" ]; then
+            rm -f "$latch"
+            mute_all
+            osd 'Mic muted' microphone-sensitivity-muted-symbolic
+          else
+            wpctl set-mute "$src" 0
+          fi
+          refresh
+          ;;
+        # The latch is normally gone by now (press cleared it), so this mutes;
+        # it only leaves the mic open if the gear key re-latched mid-hold.
+        release)
+          apply
+          refresh
+          ;;
+        # Only the latching toggle shows an OSD: popping one up on every
+        # push-to-talk press and release would be constant visual noise, and
+        # waybar already covers that case.
+        toggle)
+          if [ -e "$latch" ]; then
+            rm -f "$latch"
+            mute_all
+            osd 'Mic muted' microphone-sensitivity-muted-symbolic
+          else
+            : > "$latch"
+            wpctl set-mute "$src" 0
+            osd 'Mic live' microphone-sensitivity-high-symbolic
+          fi
+          refresh
+          ;;
+        # Start every session muted, with no latch held over from the last one.
+        init)
+          rm -f "$latch"
+          apply
+          refresh
+          ;;
+        # Suspend tears down source nodes (and reshuffles which one is default),
+        # so the baseline has to be re-asserted on wake rather than assumed to
+        # have survived. Driven by swayidle's after-resume hook.
+        resume)
+          apply
+          refresh
+          ;;
+        # Muted vs open comes from wireplumber; the latch only says whether
+        # that is the baseline or an Alt+Space override of it.
+        status)
+          if wpctl get-volume "$src" | grep -q MUTED; then
+            printf '{"text":"󰍭","class":"muted","tooltip":"Microphone muted — hold Alt+Space to talk, gear key to unmute"}\n'
+          elif [ -e "$latch" ]; then
+            printf '{"text":"󰍬","class":"live","tooltip":"Microphone open — Alt+Space or gear key to mute"}\n'
+          else
+            printf '{"text":"󰍬","class":"talking","tooltip":"Microphone open while Alt+Space is held"}\n'
+          fi
+          ;;
+        *)
+          echo "usage: micctl press|release|toggle|init|resume|status" >&2
+          exit 1
+          ;;
+      esac
+    '';
+  };
+
   homeModule =
     { config, ... }:
     {
+      # micctl is on PATH so waybar's custom/mic module can call it by name.
       home.packages = [
         pkgs.walker
         pkgs.elephant
+        micctl
       ];
 
       # Partial config: walker merges this over its built-in defaults.
@@ -137,6 +264,9 @@ let
           # { grace = 2; }.
           before-sleep = "${config.programs.hyprlock.package}/bin/hyprlock --no-fade-in -g 2";
           lock = "${config.programs.hyprlock.package}/bin/hyprlock --no-fade-in -g 2";
+          # Re-mute on wake: see micctl's resume branch. swayidle already has
+          # the logind connection this needs, courtesy of before-sleep.
+          after-resume = "${micctl}/bin/micctl resume";
         };
       };
 
@@ -182,6 +312,7 @@ let
             { command = "${pkgs.wlsunset}/bin/wlsunset -t 4000 -T 6500"; }
             { command = "${pkgs.walker}/bin/walker --gapplication-service"; }
             { command = "${pkgs.lxqt.lxqt-policykit}/bin/lxqt-policykit-agent"; }
+            { command = "${micctl}/bin/micctl init"; }
           ];
 
           seat."*".xcursor_theme = "Adwaita";
@@ -274,10 +405,23 @@ let
                   "s" = sway "focus child";
                   "t" = sway "floating toggle";
                   "p" = exec "${pkgs.walker}/bin/walker";
-                  "space" = exec "pkill -SIGUSR1 '^.waybar-wrapped$'";
                 }
               ))
               // {
+                # Push-to-talk. The flags sit in the key position because
+                # home-manager pastes it verbatim after `bindsym`: --no-repeat
+                # stops key repeat from re-running unmute for the whole hold.
+                # Suppress home-manager's default `${mod}+space focus
+                # mode_toggle`, which would otherwise shadow the two bindings
+                # below.
+                "${mod}+space" = null;
+                "--no-repeat ${mod}+space" = exec "${micctl}/bin/micctl press";
+                "--release ${mod}+space" = exec "${micctl}/bin/micctl release";
+                # The gear key in the function row (Framework 13's F12 media
+                # function) is Media Select -- evdev KEY_MEDIA, keysym
+                # XF86AudioMedia -- and comes from the internal AT keyboard.
+                "${mod}+XF86AudioMedia" = exec "${micctl}/bin/micctl toggle";
+
                 "XF86MonBrightnessUp" = exec "swayosd-client --brightness +10";
                 "XF86MonBrightnessDown" = exec "swayosd-client --brightness -10";
                 "XF86AudioRaiseVolume" = exec "swayosd-client --output-volume raise";
