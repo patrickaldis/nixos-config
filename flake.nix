@@ -1,6 +1,10 @@
 {
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+    # Tracks the same branch as nixpkgs, but locked separately so claude-code
+    # can be bumped on its own with `nix flake update nixpkgs-claude`. Used for
+    # nothing else -- see the overlay in modules/nix-config.nix.
+    nixpkgs-claude.url = "github:NixOS/nixpkgs/nixos-unstable";
     agenix.url = "github:ryantm/agenix";
     nvim.url = "github:patrickaldis/nvim-config";
     stremio.url = "git+ssh://git@github.com/patrickaldis/stremio.git";
@@ -60,6 +64,7 @@
                   value = inputs.${name};
                 })
                 [
+                  "nixpkgs-claude"
                   "disko"
                   "agenix"
                   "nvim"

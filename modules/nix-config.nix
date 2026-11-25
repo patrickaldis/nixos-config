@@ -1,4 +1,4 @@
-{ virglrenderer, nvim, system, ... }: {
+{ virglrenderer, nvim, nixpkgs-claude, system, ... }: {
   nix.settings = {
     substituters = [
       "https://hyprland.cachix.org"
@@ -32,6 +32,13 @@
       });
       qemu = super.qemu.override { virglrenderer = self.virglrenderer; };
       neovim = nvim.packages.${system}.default;
+      inherit
+        (import nixpkgs-claude {
+          inherit system;
+          config.allowUnfree = true;
+        })
+        claude-code
+        ;
     })
   ];
 }
