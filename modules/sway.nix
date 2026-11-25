@@ -389,6 +389,16 @@ in
     };
     security.polkit.enable = true;
 
+    # Picks which output to share for ScreenCast via walker's dmenu mode,
+    # instead of xdg-desktop-portal-wlr's built-in (layer-shell) chooser.
+    # Must go through this option rather than a plain xdg.configFile:
+    # xdg-desktop-portal-wlr's systemd unit is started with an explicit
+    # --config=<store path>, which always wins over $XDG_CONFIG_HOME.
+    xdg.portal.wlr.settings.screencast = {
+      chooser_type = "dmenu";
+      chooser_cmd = "${pkgs.walker}/bin/walker --dmenu --placeholder 'Share which output?'";
+    };
+
     # programs.sway sets this for swaylock itself (wayland-session.nix), but
     # not for hyprlock, so it has to be declared explicitly here.
     security.pam.services.hyprlock = { };
